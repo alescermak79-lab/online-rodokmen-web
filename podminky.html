@@ -59,4 +59,11 @@
 <p>Stížnosti vyřizuje poskytovatel na e-mailu zakazky@online-rodokmen.cz. Spotřebitel má právo na mimosoudní řešení sporu u České obchodní inspekce (www.coi.cz) nebo prostřednictvím platformy ODR (ec.europa.eu/consumers/odr).</p>
 </article>
 <footer><a href="/">Zpět na úvod</a></footer>
-</div></body></html>
+</div><div id="cookies" class="cookies" hidden>
+  <div>Tento web nepoužívá sledovací ani reklamní cookies. Ukládáme jen vaši volbu v této liště. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
+  <button class="btn" type="button" id="cookiesOk">Rozumím</button>
+</div>
+<script>
+try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
+</script>
+</body></html>

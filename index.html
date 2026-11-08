@@ -160,5 +160,12 @@ document.getElementById('f').addEventListener('submit',e=>{const inp=document.ge
  const mb=[...inp.files].reduce((a,f)=>a+f.size,0)/1048576;if(mb>MAX_MB){e.preventDefault();document.getElementById('stav').innerHTML='<span style="color:#b00">Přílohy přesahují 10 MB. Uberte fotky, nebo formulář odešlete bez nich a fotky pošlete e-mailem na zakazky@online-rodokmen.cz.</span>';return;}
  document.getElementById('odeslat').disabled=true;document.getElementById('stav').textContent='Odesílám…';});
 </script>
+<div id="cookies" class="cookies" hidden>
+  <div>Tento web nepoužívá sledovací ani reklamní cookies. Ukládáme jen vaši volbu v této liště. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
+  <button class="btn" type="button" id="cookiesOk">Rozumím</button>
+</div>
+<script>
+try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
+</script>
 </body>
 </html>
