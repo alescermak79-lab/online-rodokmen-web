@@ -1,4 +1,4 @@
-:root{--bg:#f7f3ec;--card:#fffdf8;--ink:#2b2622;--muted:#7a7068;--line:#e3dbcf;--acc:#7a3e2b;--acc2:#2f6b55;--accbg:#e3f0e9}
+:root{--bg:#f7f3ec;--card:#fffdf8;--ink:#2b2622;--muted:#6b6159;--line:#e3dbcf;--acc:#7a3e2b;--acc2:#2f6b55;--accbg:#e3f0e9}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-behavior:smooth}
@@ -10,7 +10,7 @@ a{color:var(--acc)}
 header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;flex-wrap:wrap}
 .logo{font-family:Fraunces,Georgia,serif;font-size:22px;text-decoration:none;color:var(--ink)}
 .logo b{color:var(--acc);font-weight:500}
-nav a{margin-left:18px;text-decoration:none;color:var(--muted);font-size:15px}
+nav a{display:inline-block;margin-left:18px;padding:8px 2px;text-decoration:none;color:var(--muted);font-size:15px}
 nav a:hover{color:var(--ink)}
 .btn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;padding:13px 22px;border-radius:999px;font-weight:600;border:none;font:inherit;cursor:pointer}
 .btn:hover{background:#5e2f21}
@@ -56,19 +56,29 @@ legend{font-family:Fraunces,Georgia,serif;font-size:20px;margin-bottom:8px}
 label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
 input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
 textarea{min-height:90px}
-.osoba{border:1px dashed var(--line);border-radius:12px;padding:12px 36px 12px 14px;margin:10px 0;display:grid;grid-template-columns:1.3fr 1fr .7fr 1fr;gap:10px;position:relative}
+.osoba{border:1px dashed var(--line);border-radius:12px;padding:12px 36px 12px 14px;margin:10px 0;display:grid;grid-template-columns:1.25fr 1fr .85fr 1fr;gap:10px;position:relative}
 .osoba label{margin-top:0}
 .osoba .rm{position:absolute;right:4px;top:4px;width:28px;height:28px;border:none;border-radius:50%;background:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
 .osoba .rm:hover{background:var(--bg);color:var(--acc)}
 .check{display:flex;gap:10px;align-items:flex-start;margin:10px 0;font-size:15px;color:var(--ink)}
-.check input{margin-top:5px;flex:none}
+.check input{margin-top:2px;flex:none;width:20px;height:20px;accent-color:var(--acc2)}
 .check span{flex:1}
 input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:focus,select:focus{outline:none;border-color:var(--acc2);box-shadow:0 0 0 3px var(--accbg)}
 .btn:focus-visible,.check input:focus-visible,summary:focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
 .obnoveno{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--accbg);color:var(--acc2);border-radius:10px;padding:10px 14px;margin:0 0 14px;font-size:14px}
 .obnoveno button{background:none;border:1px solid currentColor;color:inherit;border-radius:999px;padding:4px 12px;font:inherit;font-size:13px;cursor:pointer}
 .hint{font-size:14px;color:var(--muted);margin:4px 0 0}
+label .dop{font-weight:400;color:var(--acc2)}
+.start{display:flex;gap:12px;align-items:flex-start;border-radius:12px;padding:12px 14px;margin:12px 0 4px;font-size:14px;background:var(--bg);border:1px solid var(--line);color:var(--muted)}
+.start .ik{flex:none;width:26px;height:26px;border-radius:50%;text-align:center;line-height:26px;font-weight:700;color:#fff;background:#b7ada3}
+.start.ok{background:var(--accbg);border-color:#bcd9c9;color:#1f4f3d}.start.ok .ik{background:var(--acc2)}
+.start.ne{background:#fbeeea;border-color:#ebc5bc;color:#7a2e1f}.start.ne .ik{background:#b0432c}
+.start b{color:inherit}
+.osoba .chyba{grid-column:1/-1;font-size:13px;color:#8a5a12;margin:-4px 0 0}
+input:user-invalid,textarea:user-invalid{border-color:#b0432c}
 .files{border:2px dashed var(--line);border-radius:12px;padding:16px;text-align:center;background:var(--bg)}
+.files label.vyber{display:inline-block;margin:0 0 6px;color:var(--ink);font-size:15px;font-weight:600;cursor:pointer}
+.files input[type=file]{display:block;margin:0 auto;max-width:100%;font-size:14px;padding:6px 0}
 #seznamFotek{font-size:14px;color:var(--muted);margin-top:8px;text-align:left}
 .stav{margin-top:12px;font-size:15px}
 footer{padding:30px 0;color:var(--muted);font-size:14px;border-top:1px solid var(--line)}
