@@ -56,7 +56,10 @@ legend{font-family:Fraunces,Georgia,serif;font-size:20px;margin-bottom:8px}
 label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
 input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
 textarea{min-height:90px}
-.osoba{border:1px dashed var(--line);border-radius:12px;padding:12px 36px 12px 14px;margin:10px 0;display:grid;grid-template-columns:1.25fr 1fr .85fr 1fr;gap:10px;position:relative}
+.osoba{border:1px dashed var(--line);border-radius:12px;padding:12px 36px 12px 14px;margin:10px 0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 14px;position:relative}
+.osoba>div{min-width:0}
+.osoba label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.osoba select{text-overflow:ellipsis}
 .osoba label{margin-top:0}
 .osoba .rm{position:absolute;right:4px;top:4px;width:28px;height:28px;border:none;border-radius:50%;background:none;color:var(--muted);cursor:pointer;font-size:18px;line-height:1}
 .osoba .rm:hover{background:var(--bg);color:var(--acc)}
@@ -86,7 +89,7 @@ footer a{color:var(--muted)}
 .doc{max-width:780px}
 .doc h2{margin-top:34px}
 .doc li{margin:6px 0}
-@media(max-width:800px){.hero,.price{grid-template-columns:1fr}.osoba{grid-template-columns:1fr 1fr}nav a{margin-left:12px}}
+@media(max-width:800px){.hero,.price{grid-template-columns:1fr}nav a{margin-left:12px}}
 @media(max-width:560px){.osoba{grid-template-columns:1fr;padding-right:14px;padding-top:34px}.osoba .rm{top:6px;right:6px}nav{display:flex;flex-wrap:wrap;gap:4px 0}nav a{margin-left:10px}}
 .doc table{border-collapse:collapse;width:100%;font-size:14px;margin:10px 0}.doc th,.doc td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}.doc th{background:var(--card)}
 
