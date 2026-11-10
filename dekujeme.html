@@ -18,13 +18,8 @@
 <a class="btn" href="/">Zpět na úvod</a></div>
 </article>
 </div><script src="mereni.js" defer></script>
-<div id="cookies" class="cookies" hidden>
-  <div>Tento web nepoužívá sledovací ani reklamní cookies. Ve vašem prohlížeči ukládáme jen volbu v této liště a rozepsaný formulář, abyste o něj nepřišli. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
-  <button class="btn" type="button" id="cookiesOk">Rozumím</button>
-</div>
 <script>
 if(/poukaz=1/.test(location.search)){document.getElementById("poukazInfo").hidden=false;document.getElementById("zakInfo").hidden=true;}
 try{localStorage.removeItem('rodokmen-podklady')}catch(e){}
-try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
 </script>
 </body></html>

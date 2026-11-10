@@ -31,6 +31,7 @@
 <ul>
 <li><b>Anthropic PBC</b> (USA) – provozovatel modelu umělé inteligence, který čte podklady a archivní skeny; data nejsou používána k trénování modelů. Předání je zajištěno standardními smluvními doložkami EU.</li>
 <li><b>Google</b> (Google Workspace, EU/USA) – e-mailová schránka, ve které jsou zakázky vedeny.</li>
+<li><b>Google Analytics</b> (Google Ireland Ltd.) – měření návštěvnosti, jen s vaším souhlasem (viz níže).</li>
 <li><b>FormSubmit</b> – přenos vyplněného formuláře do naší schránky; data neukládá.</li>
 <li><b>Veřejné archivy</b> (státní oblastní archivy ČR, FamilySearch) – při výzkumu jim nepředáváme žádné vaše údaje, pouze v nich vyhledáváme.</li>
 </ul>
@@ -38,15 +39,10 @@
 <h2>Vaše práva</h2>
 <p>Máte právo na přístup ke svým údajům, jejich opravu, výmaz (kromě údajů, které musíme uchovat ze zákona), omezení zpracování, přenositelnost a námitku. Požadavky vyřizujeme na zakazky@online-rodokmen.cz do 30 dnů. Stížnost lze podat u Úřadu pro ochranu osobních údajů (www.uoou.cz).</p>
 
-<h2>Cookies a úložiště prohlížeče</h2>
-<p>Web nepoužívá žádné sledovací cookies ani analytické nástroje třetích stran. V úložišti vašeho prohlížeče (localStorage) ukládáme pouze dvě věci: potvrzení informační lišty a rozepsaný objednávkový formulář (jména, roky a místa, která jste vyplnili), abyste o něj nepřišli, když stránku opustíte. Tyto údaje zůstávají jen ve vašem zařízení, nikam se neodesílají a smažou se odesláním formuláře nebo tlačítkem „Začít znovu“; fotky dokladů ani zaškrtnuté souhlasy se neukládají.</p>
+<h2 id="cookies-info">Cookies a úložiště prohlížeče</h2>
+<p><b>Měření návštěvnosti (Google Analytics 4).</b> Pouze s vaším souhlasem používáme analytické cookies služby Google Analytics (Google Ireland Ltd.), abychom věděli, kolik lidí web navštíví, odkud přicházejí a které části je zajímají. IP adresy Google Analytics neukládá. Bez souhlasu se žádné analytické cookies neukládají; Google dostává jen anonymní signály bez identifikátorů (tzv. Consent Mode). Reklamní cookies ani remarketing nepoužíváme. Údaje se uchovávají nejvýše 14 měsíců. Souhlas můžete kdykoli změnit odkazem <a href="#" data-cookies-nastaveni>Nastavení cookies</a> v patičce.</p>
+<p><b>Úložiště prohlížeče.</b> V localStorage vašeho prohlížeče ukládáme vaši volbu v cookie liště a rozepsaný objednávkový formulář (jména, roky a místa, která jste vyplnili), abyste o něj nepřišli, když stránku opustíte. Tyto údaje zůstávají jen ve vašem zařízení, nikam se neodesílají a smažou se odesláním formuláře nebo tlačítkem „Začít znovu“; fotky dokladů ani zaškrtnuté souhlasy se neukládají.</p>
 </article>
-<footer><a href="/">Zpět na úvod</a></footer>
-</div><div id="cookies" class="cookies" hidden>
-  <div>Tento web nepoužívá sledovací ani reklamní cookies. Ve vašem prohlížeči ukládáme jen volbu v této liště a rozepsaný formulář, abyste o něj nepřišli. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
-  <button class="btn" type="button" id="cookiesOk">Rozumím</button>
-</div>
-<script>
-try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
-</script>
+<footer><a href="/">Zpět na úvod</a> · <a href="#" data-cookies-nastaveni>Nastavení cookies</a></footer>
+</div><script src="mereni.js" defer></script>
 </body></html>
