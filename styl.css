@@ -8,7 +8,8 @@ h1{font-size:clamp(30px,5vw,46px)}h2{font-size:clamp(24px,3.5vw,32px)}h3{font-si
 a{color:var(--acc)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
 header.top{display:flex;justify-content:space-between;align-items:center;padding:18px 0;gap:12px;flex-wrap:wrap}
-.logo{font-family:Fraunces,Georgia,serif;font-size:22px;text-decoration:none;color:var(--ink)}
+.logo{font-family:Fraunces,Georgia,serif;font-size:22px;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:10px}
+.logo img{display:block;flex:none}
 .logo b{color:var(--acc);font-weight:500}
 nav a{display:inline-block;margin-left:18px;padding:8px 2px;text-decoration:none;color:var(--muted);font-size:15px}
 nav a:hover{color:var(--ink)}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Rodokmen online">
+  <g fill="#2f6b55"><circle cx="50" cy="30" r="19"/><circle cx="29" cy="42" r="14"/><circle cx="71" cy="42" r="14"/><circle cx="35" cy="25" r="13"/><circle cx="65" cy="25" r="13"/><circle cx="50" cy="50" r="14"/></g>
+  <path d="M42 92C46 80 46.5 68 46.5 52H53.5C53.5 68 54 80 58 92Z" fill="#7a3e2b"/>
+  <g fill="none" stroke="#7a3e2b" stroke-width="3.2" stroke-linecap="round"><path d="M45 90C41 93 36 93 30 96"/><path d="M55 90C59 93 64 93 70 96"/></g>
+  <g fill="none" stroke="#fffdf8" stroke-width="2.2" stroke-linecap="round"><path d="M50 64V34"/><path d="M50 54C45 49 40 48 37 42"/><path d="M50 54C55 49 60 48 63 42"/><path d="M50 42C47 38 44 36 43 31"/><path d="M50 42C53 38 56 36 57 31"/></g>
+</svg>
