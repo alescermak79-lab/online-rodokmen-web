@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dárkový poukaz – Rodokmen online</title>
+<meta name="description" content="Darujte rodokmen. Dárkový poukaz 1 500, 3 000 nebo 6 000 Kč na dohledání předků v matrikách. Pošleme e-mailem jako PDF, platí 12 měsíců.">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styl.css">
+</head>
+<body><div class="wrap">
+<header class="top"><a class="logo" href="/">Rodokmen <b>online</b></a><nav><a href="/#ukazka">Ukázka</a><a href="/#cena">Cena</a></nav></header>
+<section>
+  <h1>Darujte rodokmen</h1>
+  <p class="lead" style="font-size:19px;color:var(--muted);max-width:640px">Dárek, který se nedá koupit v obchodě: příběh rodiny, doložený archivními zápisy. Poukaz dostanete e-mailem jako PDF, můžete ho vytisknout nebo přeposlat.</p>
+  <div class="price" style="margin-top:20px">
+    <div class="pricebox">
+      <span class="tag">Platí 12 měsíců</span>
+      <ul>
+        <li><b>1 500 Kč</b> ≈ 10 doložených předků</li>
+        <li><b>3 000 Kč</b> ≈ 20 doložených předků</li>
+        <li><b>6 000 Kč</b> ≈ 40 doložených předků</li>
+      </ul>
+      <p class="hint">Hodnota poukazu se odečte od ceny rodokmenu (150 Kč za doloženého předka). Neuplatněný zbytek zůstává k dispozici do konce platnosti. Cena včetně DPH.</p>
+    </div>
+    <div class="list">
+      <h3>Jak to funguje</h3>
+      <ol>
+        <li>Objednáte poukaz a zaplatíte převodem nebo QR kódem.</li>
+        <li>Po připsání platby vám přijde PDF poukaz s kódem (zpravidla do 24 hodin, nejpozději do 5 pracovních dnů) a doklad o zaplacení.</li>
+        <li>Obdarovaný zadá na webu podklady o rodině a do formuláře vyplní kód poukazu.</li>
+        <li>Dostane bezplatný náhled a po jeho schválení se doplatí jen rozdíl, pokud nějaký je.</li>
+      </ol>
+    </div>
+  </div>
+</section>
+<section id="objednat">
+  <h2>Objednat poukaz</h2>
+  <form id="f" action="https://formsubmit.co/c57251e2c1cb40dd3d4b70d83e8e1789" method="POST">
+    <input type="hidden" name="_subject" value="Nový poukaz">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" value="https://online-rodokmen.cz/dekujeme.html?poukaz=1">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <fieldset>
+      <legend>Hodnota poukazu</legend>
+      <div class="voucher">
+        <label><input type="radio" name="castka" value="1500" required> 1 500 Kč</label>
+        <label><input type="radio" name="castka" value="3000" checked> 3 000 Kč</label>
+        <label><input type="radio" name="castka" value="6000"> 6 000 Kč</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Kdo poukaz objednává</legend>
+      <label for="jmeno">Jméno a příjmení</label><input id="jmeno" type="text" name="jmeno" required autocomplete="name">
+      <label for="email">E-mail (sem pošleme platbu a poukaz)</label><input id="email" type="email" name="email" required autocomplete="email">
+    </fieldset>
+    <fieldset>
+      <legend>Pro koho je dárek (nepovinné)</legend>
+      <label for="komu">Jméno obdarovaného, vytiskne se na poukaz</label><input id="komu" type="text" name="komu">
+      <label for="venovani">Krátké věnování (max. 140 znaků)</label><input id="venovani" type="text" name="venovani" maxlength="140" placeholder="např. K Vánocům, ať víme, odkud pocházíme">
+    </fieldset>
+    <fieldset>
+      <legend>Souhlasy</legend>
+      <label class="check"><input type="checkbox" name="souhlas_podminky" value="ano" required> Seznámil(a) jsem se s <a href="podminky.html#poukazy" target="_blank">obchodními podmínkami (čl. 9 Dárkové poukazy)</a> a <a href="ochrana-udaju.html" target="_blank">zásadami ochrany osobních údajů</a> a souhlasím s nimi.</label>
+    </fieldset>
+    <button class="btn" type="submit" data-ev="poukaz-odeslan">Objednat poukaz</button>
+  </form>
+</section>
+<footer>
+  <div>© 2026 Rodokmen online · 1. e-shop s.r.o., Milíčova 1888, 250 82 Úvaly, IČO 06767516, DIČ CZ06767516 · <a href="mailto:zakazky@online-rodokmen.cz">zakazky@online-rodokmen.cz</a></div>
+  <div><a href="podminky.html">Obchodní podmínky</a> · <a href="ochrana-udaju.html">Ochrana osobních údajů</a></div>
+</footer>
+</div><script src="mereni.js" defer></script>
+<div id="cookies" class="cookies" hidden>
+  <div>Tento web nepoužívá sledovací ani reklamní cookies. Ukládáme jen vaši volbu v této liště. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
+  <button class="btn" type="button" id="cookiesOk">Rozumím</button>
+</div>
+<script>
+try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
+</script>
+</body></html>

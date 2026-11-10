@@ -10,17 +10,20 @@
 <body><div class="wrap">
 <header class="top"><a class="logo" href="/">Rodokmen <b>online</b></a></header>
 <article class="doc" style="padding:40px 0">
-<h1>Děkujeme, podklady dorazily.</h1>
-<p class="lead" style="font-size:19px;color:var(--muted)">Do několika minut vám přijde potvrzení s číslem zakázky. Pokud nepřijde, zkontrolujte složku se spamem nebo nám napište na <a href="mailto:zakazky@online-rodokmen.cz">zakazky@online-rodokmen.cz</a>.</p>
+<h1>Děkujeme, objednávka dorazila.</h1>
+<div id="poukazInfo" hidden><p class="lead" style="font-size:19px;color:var(--muted)"><b>Poukaz jsme přijali.</b> Do několika minut vám e-mailem přijdou platební údaje (QR kód). Po připsání platby pošleme PDF poukaz s kódem, zpravidla do 24 hodin.</p><a class="btn" href="/">Zpět na úvod</a></div>
+<div id="zakInfo"><p class="lead" style="font-size:19px;color:var(--muted)">Do několika minut vám přijde potvrzení s číslem zakázky. Pokud nepřijde, zkontrolujte složku se spamem nebo nám napište na <a href="mailto:zakazky@online-rodokmen.cz">zakazky@online-rodokmen.cz</a>.</p>
 <p>Co bude dál: zkontrolujeme podklady, prohledáme matriky a pošleme vám náhled s cenou. Teprve potom se rozhodnete, jestli rodokmen chcete.</p>
 <p>Máte další fotky dokladů, které se do formuláře nevešly? Stačí odpovědět na potvrzovací e-mail a přiložit je.</p>
-<a class="btn" href="/">Zpět na úvod</a>
+<a class="btn" href="/">Zpět na úvod</a></div>
 </article>
-</div><div id="cookies" class="cookies" hidden>
+</div><script src="mereni.js" defer></script>
+<div id="cookies" class="cookies" hidden>
   <div>Tento web nepoužívá sledovací ani reklamní cookies. Ve vašem prohlížeči ukládáme jen volbu v této liště a rozepsaný formulář, abyste o něj nepřišli. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
   <button class="btn" type="button" id="cookiesOk">Rozumím</button>
 </div>
 <script>
+if(/poukaz=1/.test(location.search)){document.getElementById("poukazInfo").hidden=false;document.getElementById("zakInfo").hidden=true;}
 try{localStorage.removeItem('rodokmen-podklady')}catch(e){}
 try{if(!localStorage.getItem('cookies-ok')){const c=document.getElementById('cookies');c.hidden=false;document.getElementById('cookiesOk').onclick=()=>{try{localStorage.setItem('cookies-ok','1')}catch(e){}c.hidden=true;};}}catch(e){}
 </script>

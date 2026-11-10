@@ -14,7 +14,7 @@
 <div class="wrap">
 <header class="top">
   <a class="logo" href="/">Rodokmen <b>online</b></a>
-  <nav><a href="#jak">Jak to funguje</a><a href="#cena">Cena</a><a href="#pripravit">Co připravit</a><a href="#faq">Otázky</a><a href="#objednat" class="btn" style="padding:9px 16px;margin-left:18px">Objednat</a></nav>
+  <nav><a href="#jak">Jak to funguje</a><a href="#hotovy">Ukázka</a><a href="#cena">Cena</a><a href="poukaz.html">Dárek</a><a href="#faq">Otázky</a><a href="#objednat" class="btn" style="padding:9px 16px;margin-left:18px">Objednat</a></nav>
 </header>
 
 <main>
@@ -22,8 +22,9 @@
   <div>
     <h1>Váš rodokmen z matrik. Nejdřív náhled zdarma, platíte jen za doložené předky.</h1>
     <p class="lead">Pošlete, co o rodině víte, a my prohledáme digitalizované matriky archivů v Česku a na Slovensku. Dostanete strom, přehled osob a odkaz na každý archivní zápis.</p>
-    <div class="cta"><a class="btn" href="#objednat">Zadat podklady</a><a class="btn sec" href="#jak">Jak to funguje</a></div>
-    <small>Když nic nedohledáme, neplatíte vůbec nic.</small>
+    <div class="cta"><a class="btn" href="#objednat" data-ev="cta-hero">Zadat podklady</a><a class="btn sec" href="#hotovy" data-ev="cta-ukazka">Prohlédnout hotový rodokmen</a></div>
+    <small>Náhled do 5 pracovních dnů. Když nic nedohledáme, neplatíte vůbec nic.</small>
+    <p class="omezeni">Hledáme předky narozené před rokem 1926. Stačí jeden, u kterého znáte obec a přibližný rok narození.</p>
   </div>
   <figure class="frame" id="ukazka">
     <div class="stromwrap" tabindex="0" aria-label="Animovaná ukázka rodokmenu; najetím myší nebo dotykem se animace zastaví">
@@ -41,6 +42,26 @@
     <div class="step"><span class="n">2</span><h3>Hledáme v archivech</h3><p>Generaci po generaci procházíme matriky narozených, oddaných a zemřelých. U každé osoby zapíšeme archiv, knihu a snímek.</p></div>
     <div class="step"><span class="n">3</span><h3>Náhled a cena</h3><p>E-mailem dostanete strom se zamlženými jmény, počet doložených předků a cenu. Teprve teď se rozhodujete.</p></div>
     <div class="step"><span class="n">4</span><h3>Zaplatíte, pošleme vše</h3><p>Po platbě (QR kód) vám přijde PDF k tisku, interaktivní verze pro prohlížeč a soubor GEDCOM, spolu s fakturou.</p></div>
+  </div>
+</section>
+
+<section class="alt" id="hotovy">
+  <h2>Podívejte se na hotový rodokmen</h2>
+  <p>Takhle vypadá výstup, který dostanete po zaplacení. Ukázková rodina je <b>smyšlená</b>, jména, data i zápisy jsou vymyšlené.</p>
+  <div class="cta" style="display:flex;gap:12px;flex-wrap:wrap;margin:14px 0 22px">
+    <a class="btn" href="ukazka/rodokmen.html" target="_blank" rel="noopener" data-ev="ukazka-html">Otevřít interaktivní strom</a>
+    <a class="btn sec" href="ukazka/rodokmen.pdf" target="_blank" rel="noopener" data-ev="ukazka-pdf">Prohlédnout PDF k tisku</a>
+  </div>
+  <div class="zapis">
+    <span class="tag">Ilustrační ukázka jednoho předka</span>
+    <h3>František Mareš <small>* 8. 11. 1860, Dolní Lhota</small></h3>
+    <dl>
+      <dt>Doloženo v</dt><dd>Matrika narozených Dolní Lhota 1860–1869, fol. 33, snímek 50</dd>
+      <dt>Přepis zápisu</dt><dd>„František 8. listopadu, syn Vojtěcha Mareše, cihláře z Dolní Lhoty č. 12, a jeho manželky Ludmily, rozené Procházkové z Bukovan.“ (zjednodušeno)</dd>
+      <dt>Vazba</dt><dd>Rodiče nalezeni v knize oddaných Bukovany 1830–1839, jména i místa sedí → <b>doloženo</b></dd>
+      <dt>Míra jistoty</dt><dd>✔ doloženo (započítá se do ceny) · u nejistých vazeb je označeno <b>? pravděpodobné</b> a zdarma</dd>
+    </dl>
+    <p class="hint">U každé osoby ve skutečném rodokmenu najdete archiv, knihu, snímek a odkaz na sken, takže si zápis ověříte sami.</p>
   </div>
 </section>
 
@@ -75,6 +96,13 @@
   </div>
 </section>
 
+<section class="dar">
+  <div class="darbox">
+    <div><h2>Darujte rodokmen</h2><p>Dárkový poukaz v hodnotě 1 500, 3 000 nebo 6 000 Kč. Pošleme ho e-mailem jako PDF, platí 12 měsíců.</p></div>
+    <a class="btn" href="poukaz.html" data-ev="cta-poukaz">Objednat poukaz</a>
+  </div>
+</section>
+
 <section class="alt" id="pripravit">
   <h2>Co si připravit</h2>
   <p>Archivy zveřejňují jen starší matriky, proto spojku k nim musí dodat rodina. Stačí nám <b>jeden předek narozený před rokem 1926</b>, u kterého znáte obec a aspoň přibližný rok narození. Čím víc víte, tím hlouběji se dostaneme.</p>
@@ -87,7 +115,7 @@
 
 <section id="objednat">
   <h2>Zadat podklady</h2>
-  <p>Po odeslání dostanete potvrzení s číslem zakázky. Náhled obvykle posíláme do několika dnů. Rozepsaný formulář si prohlížeč pamatuje, můžete se k němu vrátit později.</p>
+  <p>Po odeslání dostanete potvrzení s číslem zakázky. Náhled posíláme do 5 pracovních dnů. Rozepsaný formulář si prohlížeč pamatuje, můžete se k němu vrátit později.</p>
   <form id="f" action="https://formsubmit.co/c57251e2c1cb40dd3d4b70d83e8e1789" method="POST" enctype="multipart/form-data">
     <input type="hidden" name="_subject" value="Nová zakázka">
     <input type="hidden" name="_template" value="table">
@@ -102,10 +130,10 @@
     </fieldset>
     <fieldset>
       <legend>Co o rodině víte</legend>
-      <p class="hint">Uveďte osoby, od kterých máme hledat: typicky prarodiče nebo praprarodiče. Přidejte, kolik jich znáte. <b>Abychom měli kde začít, potřebujeme u aspoň jedné osoby narozené do roku 1925 rok i obec narození</b> – nebo fotku jejího rodného či oddacího listu níže.</p>
+      <p class="hint">Uveďte osoby, od kterých máme hledat: typicky prarodiče nebo praprarodiče. Stačí jedna, další přidáte tlačítkem. <b>Abychom měli kde začít, potřebujeme u aspoň jedné osoby narozené do roku 1925 rok i obec narození</b> – nebo fotku jejího rodného či oddacího listu níže.</p>
       <div id="osoby"></div>
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: doplňte u některé osoby rok a obec narození, nebo přiložte doklad.</span></div>
-      <button type="button" class="btn sec" id="pridat">+ Přidat osobu</button>
+      <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
       <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího</label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
     </fieldset>
     <fieldset>
@@ -118,10 +146,14 @@
       </div>
     </fieldset>
     <fieldset>
+      <legend>Máte dárkový poukaz?</legend>
+      <label for="kod">Kód poukazu (nepovinné)</label><input id="kod" type="text" name="kod_poukazu" placeholder="např. RP-XXXX-XXXX" autocomplete="off" maxlength="20">
+    </fieldset>
+    <fieldset>
       <legend>Souhlasy</legend>
-      <label class="check"><input type="checkbox" name="souhlas_podminky" value="ano" required><span>Seznámil(a) jsem se s <a href="podminky.html" target="_blank">obchodními podmínkami</a> a souhlasím s nimi.</span></label>
-      <label class="check"><input type="checkbox" name="souhlas_gdpr" value="ano" required><span>Beru na vědomí <a href="ochrana-udaju.html" target="_blank">zásady ochrany osobních údajů</a>. Údaje o žijících příbuzných uvádím s jejich vědomím.</span></label>
-      <label class="check"><input type="checkbox" name="souhlas_odstoupeni" value="ano" required><span>Souhlasím, aby mi byl rodokmen dodán ihned po zaplacení, a beru na vědomí, že tím zaniká právo na odstoupení od smlouvy ve 14denní lhůtě.</span></label>
+      <label class="check"><input type="checkbox" name="souhlas_podminky" value="ano" required><span>Seznámil(a) jsem se s <a href="podminky.html" target="_blank">obchodními podmínkami</a> a <a href="ochrana-udaju.html" target="_blank">zásadami ochrany osobních údajů</a> a souhlasím s nimi.</span></label>
+      <label class="check"><input type="checkbox" name="souhlas_zijici" value="ano" required><span>Údaje o žijících příbuzných uvádím s jejich vědomím.</span></label>
+      <p class="hint">Náhled je zdarma a k ničemu vás nezavazuje. Až zaplatíte nabídku, dostanete rodokmen ihned; podrobnosti najdete v nabídce a v podmínkách.</p>
     </fieldset>
     <button class="btn" type="submit" id="odeslat">Odeslat podklady</button>
     <div class="stav" id="stav"></div>
@@ -134,7 +166,8 @@
   <details><summary>Co když se nic nenajde?</summary><p>Napíšeme vám, kde jsme hledali a proč výzkum skončil, a nic neplatíte. Můžete se vrátit s dalšími údaji.</p></details>
   <details><summary>Jak poznám, že jsou údaje správně?</summary><p>U každé osoby je odkaz na sken zápisu v archivu, takže si vše můžete ověřit sami. Nejisté vazby jsou označené a neplatíte za ně.</p></details>
   <details><summary>Hledáte i mimo Česko a Slovensko?</summary><p>Zatím ne. Pokud předkové přišli odjinud, dohledáme je po hranici a napíšeme, kde pokračovat.</p></details>
-  <details><summary>Kdo za tím stojí?</summary><p>Službu provozuje 1. e-shop s.r.o., Úvaly. Výzkum provádí automatizovaný systém s umělou inteligencí, který čte archivní skeny; každý zápis je dohledatelný ve veřejném archivu.</p></details>
+  <details><summary>Kdo za tím stojí a proč tomu věřit?</summary><p>Službu provozuje 1. e-shop s.r.o., Úvaly. Matriky čte automatizovaný systém s umělou inteligencí. Nespoléháme na slib, ale na kontrolu na vaší straně: u každé osoby je archiv, kniha, snímek a odkaz na sken, takže si zápis ověříte sami. Kde si nejsme jistí, osobu označíme jako pravděpodobnou a neplatíte za ni. Když v doloženém zápisu najdete chybu, opravíme ji nebo vrátíme peníze (podmínky, čl. 5).</p></details>
+  <details><summary>Kolik to bude stát a jak dlouho to trvá?</summary><p>150 Kč za každého doloženého předka, typicky 3 000 až 9 000 Kč. Náhled dostanete do 5 pracovních dnů, rodokmen po zaplacení zpravidla do 24 hodin.</p></details>
   <details><summary>Jak nakládáte s mými údaji?</summary><p>Podklady a pracovní data mažeme 30 dní po uzavření zakázky. Podrobnosti v <a href="ochrana-udaju.html">zásadách ochrany osobních údajů</a>.</p></details>
 </section>
 </main>
@@ -182,11 +215,11 @@ function smazKoncept(){try{localStorage.removeItem(KLIC)}catch(e){}}
 let koncept=null;try{koncept=JSON.parse(localStorage.getItem(KLIC)||'null');}catch(e){}
 if(koncept&&Array.isArray(koncept.osoby)&&!prazdny(koncept)){
  F.jmeno.value=koncept.jmeno||'';F.email.value=koncept.email||'';F.poznamka.value=koncept.poznamka||'';
- (koncept.osoby.length?koncept.osoby:[{vztah:VZTAHY[0]},{vztah:VZTAHY[1]}]).forEach(o=>pridej(o.vztah,o));
+ (koncept.osoby.length?koncept.osoby:[{vztah:VZTAHY[0]}]).forEach(o=>pridej(o.vztah,o));
  document.getElementById('obnoveno').hidden=false;
-}else{pridej(VZTAHY[0]);pridej(VZTAHY[1]);}
+}else{pridej(VZTAHY[0]);}
 start();
-document.getElementById('zacitZnovu').onclick=()=>{smazKoncept();F.reset();document.getElementById('osoby').innerHTML='';n=0;pridej(VZTAHY[0]);pridej(VZTAHY[1]);document.getElementById('obnoveno').hidden=true;start();F.jmeno.focus();};
+document.getElementById('zacitZnovu').onclick=()=>{smazKoncept();F.reset();document.getElementById('osoby').innerHTML='';n=0;pridej(VZTAHY[0]);document.getElementById('obnoveno').hidden=true;start();F.jmeno.focus();};
 F.addEventListener('input',()=>{uloz();start();});F.addEventListener('change',()=>{uloz();start();});
 
 // Fotky: zmenšit v prohlížeči, aby se vešly do limitu 10 MB
@@ -240,6 +273,8 @@ document.addEventListener('visibilitychange',()=>{viditelny=!document.hidden;spu
 box(CELY);spust();
 })();
 </script>
+<a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
+<script src="mereni.js" defer></script>
 <div id="cookies" class="cookies" hidden>
   <div>Tento web nepoužívá sledovací ani reklamní cookies. Ve vašem prohlížeči ukládáme jen volbu v této liště a rozepsaný formulář, abyste o něj nepřišli. <a href="ochrana-udaju.html">Více o ochraně údajů</a></div>
   <button class="btn" type="button" id="cookiesOk">Rozumím</button>
