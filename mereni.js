@@ -19,6 +19,9 @@
     analytics_storage: ulozeno === "ano" ? "granted" : "denied",
     wait_for_update: 500
   });
+  if (ulozeno === "ano") gtag("consent", "update", {
+    ad_storage: "granted", ad_user_data: "granted", ad_personalization: "granted"
+  });
   gtag("set", "ads_data_redaction", true);
   gtag("set", "url_passthrough", false);
   gtag("js", new Date());
@@ -26,6 +29,12 @@
   var s = document.createElement("script");
   s.async = true; s.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
   document.head.appendChild(s);
+
+  // --- Google Tag Manager (načítá se až po výchozím consentu výše, takže respektuje cookie lištu) ---
+  window.dataLayer.push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+  var g = document.createElement("script");
+  g.async = true; g.src = "https://www.googletagmanager.com/gtm.js?id=GTM-W43N8CCL";
+  document.head.appendChild(g);
 
   // --- Sklik SEM (retargeting + konverze) ---
   var semFronta = [];
@@ -59,7 +68,8 @@
   // --- Cookie lišta ---
   function nastav(volba) {
     try { localStorage.setItem(KLIC, volba); localStorage.removeItem("cookies-ok"); } catch (e) {}
-    gtag("consent", "update", { analytics_storage: volba === "ano" ? "granted" : "denied" });
+    var gv = volba === "ano" ? "granted" : "denied";
+    gtag("consent", "update", { analytics_storage: gv, ad_storage: gv, ad_user_data: gv, ad_personalization: gv });
     semSouhlas(volba === "ano");
     if (volba !== "ano") {
       // smazat případné GA cookies
