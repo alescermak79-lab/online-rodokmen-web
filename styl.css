@@ -117,3 +117,13 @@ footer a{color:var(--muted)}
 .cookies-tl{display:flex;gap:8px;flex-shrink:0}
 .cookies .btn-sek{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5)}
 @media(max-width:600px){.cookies-tl{justify-content:center}.cookies-tl .btn{flex:1}}
+
+/* Předdefinované volby a nepovinné údaje u osoby */
+.check.mini{font-size:14px;margin:6px 0 0}
+.check.mini input{width:18px;height:18px}
+.osoba .check{white-space:normal}
+.osoba .check span{overflow:visible;white-space:normal}
+.osoba .dalsi{grid-column:1/-1;background:var(--bg);border-radius:10px;padding:8px 12px}
+.osoba .dalsi summary{cursor:pointer;font-size:14px;color:var(--ink)}
+.osoba .dalsi-obsah{display:grid;gap:10px;margin-top:10px}
+.osoba .dalsi .vim{display:grid;gap:2px}

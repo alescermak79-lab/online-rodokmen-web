@@ -170,7 +170,7 @@
       var ids = Object.keys(osoby), nejstarsi = 0, rodice = 0, vyplnenych = 0;
       ids.forEach(function (i) {
         var o = osoby[i], r = /(1[5-9]\d\d|20\d\d)/.exec(o.rok || "");
-        if (o.jmeno) vyplnenych++;
+        if (o.prijmeni || o.jmeno) vyplnenych++;
         if (r) { var y = +r[1]; if (!nejstarsi || y < nejstarsi) nejstarsi = y; }
         if (o.otec || o.matka || o.snatek_rodicu) rodice++;
       });

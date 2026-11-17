@@ -188,20 +188,32 @@
 
 <script>
 const VZTAHY=["dědeček (z otcovy strany)","babička (z otcovy strany)","dědeček (z matčiny strany)","babička (z matčiny strany)","pradědeček","prababička","otec","matka","jiný příbuzný"];
+const OBLASTI=[["","— vyberte —"],["cechy","Čechy"],["morava","Morava"],["slezsko","Slezsko"],["slovensko","Slovensko"],["jinde","Jinde / nevím"]];
+const VYZNANI=[["","Nevím"],["katolicke","Římskokatolické"],["evangelicke","Evangelické"],["zidovske","Židovské"],["jine","Jiné"]];
+const VIM=[["vim_pohranici","Rodina pocházela z pohraničí nebo mluvila německy"],["vim_prijmeni_jinak","Příjmení se psalo nebo píše jinak (německy, slovensky…)"],["vim_stehovani","Rodina se stěhovala (za prací, po válce…)"],["vim_vice_manzelstvi","Osoba měla víc manželství"],["vim_dalsi_doklady","Mám i další doklady (úmrtní oznámení, fotky náhrobků…)"]];
 let n=0,soubory=[];
 function pridej(vztah,data){n++;const d=document.createElement('div');d.className='osoba';d.innerHTML=`
-<div><label for="o${n}j">Jméno a příjmení (u žen i rodné)</label><input id="o${n}j" type="text" name="osoba${n}_jmeno" data-pole="jmeno" required autocomplete="off" maxlength="120"></div>
+<div><label for="o${n}j">Křestní jméno</label><input id="o${n}j" type="text" name="osoba${n}_jmeno" data-pole="jmeno" autocomplete="off" maxlength="60">
+<label class="check mini"><input type="checkbox" name="osoba${n}_jmeno_nezname" data-pole="jmeno_nezname" value="ano"><span>Křestní jméno neznám</span></label></div>
+<div><label for="o${n}p">Příjmení <span class="dop">(u žen i rodné)</span></label><input id="o${n}p" type="text" name="osoba${n}_prijmeni" data-pole="prijmeni" required autocomplete="off" maxlength="60"></div>
 <div><label for="o${n}v">Vztah k vám</label><select id="o${n}v" name="osoba${n}_vztah" data-pole="vztah">${VZTAHY.map(v=>`<option${v===vztah?' selected':''}>${v}</option>`).join('')}</select></div>
 <div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20"></div>
-<div><label for="o${n}m">Obec narození <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
+<div><label for="o${n}a">Odkud pochází</label><select id="o${n}a" name="osoba${n}_oblast" data-pole="oblast">${OBLASTI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
+<div><label for="o${n}m">Obec narození a okres <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
+<div><label for="o${n}y">Vyznání</label><select id="o${n}y" name="osoba${n}_vyznani" data-pole="vyznani">${VYZNANI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
 <div class="rodice" hidden>
 <p class="rodtx">Narození po roce 1910 většinou není v matrikách na internetu. Uveďte prosím rodiče této osoby – hledat budeme přes jejich sňatek.</p>
 <div><label for="o${n}o">Otec <span class="dop">(jméno a příjmení)</span></label><input id="o${n}o" type="text" name="osoba${n}_otec" data-pole="otec" autocomplete="off" maxlength="120"></div>
 <div><label for="o${n}k">Matka <span class="dop">(i rodné příjmení)</span></label><input id="o${n}k" type="text" name="osoba${n}_matka" data-pole="matka" autocomplete="off" maxlength="120"></div>
 <div class="cela"><label for="o${n}s">Kde a kdy se rodiče brali <span class="dop">(i přibližně)</span></label><input id="o${n}s" type="text" name="osoba${n}_snatek_rodicu" data-pole="snatek" placeholder="např. Kolín, asi 1920" autocomplete="off" maxlength="120"></div>
 </div>
+<details class="dalsi"><summary>Další údaje o této osobě <span class="dop">(nepovinné, pomůžou výzkumu)</span></summary>
+<div class="dalsi-obsah">
+<div><label for="o${n}z">Povolání <span class="dop">(i otce nebo manžela)</span></label><input id="o${n}z" type="text" name="osoba${n}_povolani" data-pole="povolani" placeholder="např. švec, rolník" autocomplete="off" maxlength="80"></div>
+<div class="vim">${VIM.map(v=>`<label class="check mini"><input type="checkbox" name="osoba${n}_${v[0]}" data-pole="${v[0]}" value="ano"><span>${v[1]}</span></label>`).join('')}</div>
+</div></details>
 <button type="button" class="rm" title="Odebrat osobu" aria-label="Odebrat osobu">×</button>`;
- if(data){for(const el of d.querySelectorAll('[data-pole]')){if(data[el.dataset.pole]!=null)el.value=data[el.dataset.pole];}}
+ if(data){for(const el of d.querySelectorAll('[data-pole]')){if(data[el.dataset.pole]!=null){if(el.type==='checkbox')el.checked=!!data[el.dataset.pole];else el.value=data[el.dataset.pole];}}}
  d.querySelector('.rm').onclick=()=>{d.remove();uloz();start();};document.getElementById('osoby').appendChild(d);}
 
 // Rok: z volného textu („asi 1905“, „1905?“, „1. 2. 1930“) vytáhneme čtyřmístný letopočet; jiný neprázdný text je chyba.
@@ -229,8 +241,8 @@ document.getElementById('pridat').onclick=()=>{pridej(VZTAHY[4]);uloz();start();
 
 // Rozepsaný formulář si prohlížeč pamatuje (localStorage, jen v tomto zařízení). Fotky ani souhlasy se neukládají.
 const KLIC='rodokmen-podklady',F=document.getElementById('f');
-function sber(){return{jmeno:F.jmeno.value,email:F.email.value,poznamka:F.poznamka.value,osoby:[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={};d.querySelectorAll('[data-pole]').forEach(el=>o[el.dataset.pole]=el.value);return o;}),cas:Date.now()};}
-function prazdny(s){return !s.jmeno&&!s.email&&!s.poznamka&&s.osoby.every(o=>!o.jmeno&&!o.rok&&!o.misto&&!o.otec&&!o.matka&&!o.snatek);}
+function sber(){return{jmeno:F.jmeno.value,email:F.email.value,poznamka:F.poznamka.value,osoby:[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={};d.querySelectorAll('[data-pole]').forEach(el=>o[el.dataset.pole]=el.type==='checkbox'?el.checked:el.value);return o;}),cas:Date.now()};}
+function prazdny(s){return !s.jmeno&&!s.email&&!s.poznamka&&s.osoby.every(o=>!o.jmeno&&!o.prijmeni&&!o.rok&&!o.misto&&!o.otec&&!o.matka&&!o.snatek&&!o.povolani);}
 let t;function uloz(){clearTimeout(t);t=setTimeout(()=>{try{const s=sber();if(prazdny(s))localStorage.removeItem(KLIC);else localStorage.setItem(KLIC,JSON.stringify(s));}catch(e){}},250);}
 function smazKoncept(){try{localStorage.removeItem(KLIC)}catch(e){}}
 let koncept=null;try{koncept=JSON.parse(localStorage.getItem(KLIC)||'null');}catch(e){}
@@ -258,7 +270,7 @@ document.getElementById('f').addEventListener('submit',e=>{const stav=document.g
  for(const el of F.querySelectorAll('input[type=text],input[type=email],textarea'))el.value=el.value.replace(/\s+/g,' ').trim();
  const chyba=(el,msg)=>{e.preventDefault();el.setCustomValidity(msg);el.addEventListener('input',()=>el.setCustomValidity(''),{once:true});F.reportValidity();};
  if(F.jmeno.value.length<3){chyba(F.jmeno,'Napište prosím celé jméno a příjmení.');return;}
- for(const d of document.querySelectorAll('#osoby .osoba')){const j=d.querySelector('[data-pole=jmeno]'),rk=d.querySelector('[data-pole=rok]');if(j.value.length<2){chyba(j,'Napište prosím jméno osoby, nebo ji křížkem odeberte.');return;}if(rokZ(rk.value).chyba){chyba(rk,'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).');return;}}
+ for(const d of document.querySelectorAll('#osoby .osoba')){const j=d.querySelector('[data-pole=jmeno]'),pr=d.querySelector('[data-pole=prijmeni]'),nz=d.querySelector('[data-pole=jmeno_nezname]'),rk=d.querySelector('[data-pole=rok]');if(pr.value.length<2){chyba(pr,'Napište prosím příjmení osoby, nebo ji křížkem odeberte.');return;}if(!nz.checked&&j.value.length<2){chyba(j,'Napište křestní jméno, nebo zaškrtněte „Křestní jméno neznám“.');return;}if(rokZ(rk.value).chyba){chyba(rk,'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).');return;}}
  if(!start()){e.preventDefault();const s=document.getElementById('start');s.scrollIntoView({behavior:'smooth',block:'center'});s.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:500});stav.innerHTML='<span style="color:#b0432c">Zatím nemáme kde začít hledat – přiložte prosím rodný či oddací list, nebo doplňte údaje podle rámečku výše. Bez toho bychom vám museli psát o doplnění.</span>';return;}
  stav.textContent='';const inp=document.getElementById('fotky');if(soubory.length){const dt=new DataTransfer();soubory.forEach(x=>dt.items.add(x));inp.files=dt.files;inp.name='doklad';}
  const mb=[...inp.files].reduce((a,f)=>a+f.size,0)/1048576;if(mb>MAX_MB){e.preventDefault();document.getElementById('stav').innerHTML='<span style="color:#b00">Přílohy přesahují 10 MB. Uberte fotky, nebo formulář odešlete bez nich a fotky pošlete e-mailem na zakazky@online-rodokmen.cz.</span>';return;}
