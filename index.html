@@ -163,10 +163,9 @@
       <legend>Poznámka</legend>
       <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího <span class="dop">(nepovinné)</span></label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
     </fieldset>
-    <fieldset>
-      <legend>Máte dárkový poukaz?</legend>
+    <details class="poukaz-roz" id="poukazRoz"><summary>Máte dárkový poukaz?</summary>
       <label for="kod">Kód poukazu (nepovinné)</label><input id="kod" type="text" name="kod_poukazu" placeholder="např. RP-XXXX-XXXX" autocomplete="off" maxlength="20">
-    </fieldset>
+    </details>
     <fieldset>
       <legend>Souhlasy</legend>
       <label class="check"><input type="checkbox" name="souhlas_podminky" value="ano" required><span>Seznámil(a) jsem se s <a href="podminky.html" target="_blank">obchodními podmínkami</a> a <a href="ochrana-udaju.html" target="_blank">zásadami ochrany osobních údajů</a> a souhlasím s nimi.</span></label>

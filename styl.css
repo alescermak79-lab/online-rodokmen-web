@@ -149,3 +149,7 @@ footer a{color:var(--muted)}
 input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%232c6b52' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 12l5 5L20 6'/%3E%3C/svg%3E") no-repeat right 12px center}
 .chyba.inl{font-size:13px;color:#8a5a12;margin:4px 0 0}
 @media(max-width:560px){.postup{font-size:13px}.postup li{padding:6px 8px}}
+
+.poukaz-roz{margin:0 0 22px;background:var(--bg);border-radius:10px;padding:10px 14px}
+.poukaz-roz summary{cursor:pointer;font-size:16px;color:var(--ink)}
+.poukaz-roz[open] summary{margin-bottom:8px}
