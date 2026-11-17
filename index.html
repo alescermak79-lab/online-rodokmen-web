@@ -31,7 +31,7 @@
     <p class="lead">Pošlete, co o rodině víte, a my prohledáme digitalizované matriky archivů v Česku a na Slovensku. Dostanete strom, přehled osob a odkaz na každý archivní zápis.</p>
     <div class="cta"><a class="btn" href="#objednat" data-ev="cta-hero">Zadat podklady</a><a class="btn sec" href="#hotovy" data-ev="cta-ukazka">Prohlédnout hotový rodokmen</a></div>
     <small>Náhled do 5 pracovních dnů. Když nic nedohledáme, neplatíte vůbec nic.</small>
-    <p class="omezeni">Hledáme předky narozené před rokem 1926. Stačí jeden, u kterého znáte obec a přibližný rok narození.</p>
+    <p class="omezeni">Stačí fotka rodného či oddacího listu prarodičů, nebo jeden předek narozený do roku 1910, u kterého znáte obec a přibližný rok narození.</p>
   </div>
   <figure class="frame" id="ukazka">
     <div class="stromwrap" tabindex="0" aria-label="Animovaná ukázka rodokmenu; najetím myší nebo dotykem se animace zastaví">
@@ -112,10 +112,11 @@
 
 <section class="alt" id="pripravit">
   <h2>Co si připravit</h2>
-  <p>Archivy zveřejňují jen starší matriky, proto spojku k nim musí dodat rodina. Stačí nám <b>jeden předek narozený před rokem 1926</b>, u kterého znáte obec a aspoň přibližný rok narození. Čím víc víte, tím hlouběji se dostaneme.</p>
+  <p>Archivy zveřejňují jen starší matriky, proto spojku k nim musí dodat rodina. Knihy narozených jsou na internetu zpravidla jen do let 1910–1920. Potřebujeme proto <b>rodný či oddací list prarodičů</b>, nebo <b>předka narozeného do roku 1910</b> s obcí a aspoň přibližným rokem narození. U mladších předků stačí i jména jejich rodičů a kde se brali. Čím víc víte, tím hlouběji se dostaneme.</p>
   <div class="steps">
     <div class="step"><h3>Ideálně</h3><p>Rodný nebo oddací list prarodičů (fotka z mobilu stačí). Obsahuje jména a místa narození jejich rodičů, tedy rovnou další generaci.</p></div>
-    <div class="step"><h3>Stačí i</h3><p>Jméno, rok a obec narození dědečka či babičky, případně kde se brali. Doplňte, co se v rodině vypráví.</p></div>
+    <div class="step"><h3>Stačí i</h3><p>Jméno, rok a obec narození předka narozeného do roku 1910. U mladších (dědeček, babička) k tomu jména jejich rodičů a obec, kde se rodiče brali.</p></div>
+    <div class="step"><h3>Kde to najít</h3><p>Staré rodné, křestní a oddací listy, úmrtní oznámení, náhrobky, nejstarší příbuzní. Nemáte nic? Matriční úřad v místě narození vám jako potomkovi vystaví výpis z matriky.</p></div>
     <div class="step"><h3>Prosíme</h3><p>Na dokladech zakryjte rodná čísla (stačí prstem nebo papírkem). Nepotřebujeme je a nechceme je ukládat.</p></div>
   </div>
 </section>
@@ -136,21 +137,21 @@
       <label for="email">E-mail (sem pošleme náhled)</label><input id="email" type="email" name="email" required autocomplete="email" maxlength="120" pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" title="Zadejte celou e-mailovou adresu včetně domény, např. jana.novakova@seznam.cz">
     </fieldset>
     <fieldset>
-      <legend>Co o rodině víte</legend>
-      <p class="hint">Uveďte osoby, od kterých máme hledat: typicky prarodiče nebo praprarodiče. Stačí jedna, další přidáte tlačítkem. <b>Abychom měli kde začít, potřebujeme u aspoň jedné osoby narozené do roku 1925 rok i obec narození</b> – nebo fotku jejího rodného či oddacího listu níže.</p>
-      <div id="osoby"></div>
-      <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: doplňte u některé osoby rok a obec narození, nebo přiložte doklad.</span></div>
-      <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
-      <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího</label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
-    </fieldset>
-    <fieldset>
-      <legend>Fotky dokladů (nepovinné, ale hodně pomůžou)</legend>
+      <legend>Fotka dokladu – nejjistější cesta</legend>
       <div class="files">
         <label class="vyber" for="fotky">Vybrat fotky nebo PDF</label>
         <input type="file" id="fotky" accept="image/*,.pdf,application/pdf" multiple>
-        <p class="hint">Rodné a oddací listy, úmrtní oznámení, fotky náhrobků (JPG, PNG, HEIC, PDF; celkem do 10 MB). Fotky před odesláním automaticky zmenšíme. Rodná čísla prosím zakryjte.</p>
+        <p class="hint"><b>Jeden rodný, křestní nebo oddací list prarodičů nahradí většinu polí níže</b> – jsou na něm rodiče i jejich původ. Hodí se i úmrtní oznámení a fotky náhrobků (JPG, PNG, HEIC, PDF; celkem do 10 MB). Fotky před odesláním automaticky zmenšíme. Rodná čísla prosím zakryjte.</p>
         <div id="seznamFotek"></div>
       </div>
+    </fieldset>
+    <fieldset>
+      <legend>Co o rodině víte</legend>
+      <p class="hint">Uveďte osoby, od kterých máme hledat: typicky prarodiče nebo praprarodiče. Stačí jedna, další přidáte tlačítkem. <b>Abychom měli kde začít, potřebujeme jedno z toho: fotku dokladu výše, nebo osobu narozenou do roku 1910 s rokem i obcí narození, nebo u mladší osoby jména jejích rodičů a obec</b>. Knihy narozených po roce 1910 většinou ještě nejsou na internetu.</p>
+      <div id="osoby"></div>
+      <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
+      <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
+      <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího</label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
     </fieldset>
     <fieldset>
       <legend>Máte dárkový poukaz?</legend>
@@ -192,31 +193,44 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 <div><label for="o${n}j">Jméno a příjmení (u žen i rodné)</label><input id="o${n}j" type="text" name="osoba${n}_jmeno" data-pole="jmeno" required autocomplete="off" maxlength="120"></div>
 <div><label for="o${n}v">Vztah k vám</label><select id="o${n}v" name="osoba${n}_vztah" data-pole="vztah">${VZTAHY.map(v=>`<option${v===vztah?' selected':''}>${v}</option>`).join('')}</select></div>
 <div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20"></div>
-<div><label for="o${n}m">Obec narození <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres" maxlength="80"></div>
+<div><label for="o${n}m">Obec narození <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
+<div class="rodice" hidden>
+<p class="rodtx">Narození po roce 1910 většinou není v matrikách na internetu. Uveďte prosím rodiče této osoby – hledat budeme přes jejich sňatek.</p>
+<div><label for="o${n}o">Otec <span class="dop">(jméno a příjmení)</span></label><input id="o${n}o" type="text" name="osoba${n}_otec" data-pole="otec" autocomplete="off" maxlength="120"></div>
+<div><label for="o${n}k">Matka <span class="dop">(i rodné příjmení)</span></label><input id="o${n}k" type="text" name="osoba${n}_matka" data-pole="matka" autocomplete="off" maxlength="120"></div>
+<div class="cela"><label for="o${n}s">Kde a kdy se rodiče brali <span class="dop">(i přibližně)</span></label><input id="o${n}s" type="text" name="osoba${n}_snatek_rodicu" data-pole="snatek" placeholder="např. Kolín, asi 1920" autocomplete="off" maxlength="120"></div>
+</div>
 <button type="button" class="rm" title="Odebrat osobu" aria-label="Odebrat osobu">×</button>`;
  if(data){for(const el of d.querySelectorAll('[data-pole]')){if(data[el.dataset.pole]!=null)el.value=data[el.dataset.pole];}}
  d.querySelector('.rm').onclick=()=>{d.remove();uloz();start();};document.getElementById('osoby').appendChild(d);}
 
 // Rok: z volného textu („asi 1905“, „1905?“, „1. 2. 1930“) vytáhneme čtyřmístný letopočet; jiný neprázdný text je chyba.
-const ROK_MAX=new Date().getFullYear(),HRANICE=1925;
+const ROK_MAX=new Date().getFullYear(),HRANICE=1910,HRANICE_RODICE=1930;
 function rokZ(s){s=(s||'').trim();if(!s)return{prazdny:true};const m=s.match(/(1[5-9]\d\d|20\d\d)/);if(!m)return{chyba:true};const r=+m[1];if(r>ROK_MAX)return{chyba:true};return{rok:r};}
-// Máme kde začít? Aspoň jedna osoba narozená do roku 1925 s rokem i obcí, nebo přiložený doklad.
-function start(){const box=document.getElementById('start');if(!box)return;let kotva=false,mladi=0,bezUdaju=0;
- for(const d of document.querySelectorAll('#osoby .osoba')){const r=rokZ(d.querySelector('[data-pole=rok]').value),m=d.querySelector('[data-pole=misto]').value.trim();let ch=d.querySelector('.chyba');
-  let txt='';if(r.chyba)txt='Rok nepoznáme – napište letopočet čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).';else if(r.rok&&r.rok>HRANICE)txt=`Narození po roce ${HRANICE} není ve veřejných matrikách. Uveďte prosím také rodiče této osoby (jako další osoby) nebo přiložte její rodný či oddací list.`;
+// Máme kde začít? (a) přiložený doklad, (b) osoba narozená do roku 1910 s rokem i obcí,
+// (c) osoba narozená 1911–1930 se jmény obou rodičů a obcí (narození nebo sňatku rodičů) – hledá se přes sňatek rodičů.
+function start(){const box=document.getElementById('start');if(!box)return;let kotva=false,pres=false,mladi=0;
+ for(const d of document.querySelectorAll('#osoby .osoba')){const v=p=>d.querySelector(`[data-pole=${p}]`).value.trim();const r=rokZ(v('rok')),m=v('misto'),rod=d.querySelector('.rodice');let ch=d.querySelector('.chyba');
+  const mlada=!!(r.rok&&r.rok>HRANICE);rod.hidden=!(mlada&&r.rok<=HRANICE_RODICE)&&!v('otec')&&!v('matka')&&!v('snatek');
+  let txt='';if(r.chyba)txt='Rok nepoznáme – napište letopočet čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).';
+  else if(r.rok&&r.rok>HRANICE_RODICE)txt=`Narození po roce ${HRANICE_RODICE} je na hledání v matrikách příliš mladé. Přidejte prosím rodiče této osoby jako další osoby (jméno, rok a obec narození), nebo přiložte její rodný či oddací list.`;
+  else if(/^praha\.?$/i.test(m))txt='Praha má desítky farností. Připište prosím čtvrť nebo kostel (např. „Praha – Břevnov“), jinak nevíme, ve které matrice hledat.';
   if(txt){if(!ch){ch=document.createElement('p');ch.className='chyba';d.appendChild(ch);}ch.textContent=txt;}else if(ch)ch.remove();
-  if(r.rok&&r.rok<=HRANICE&&m)kotva=true;else if(r.rok&&r.rok>HRANICE)mladi++;else if(!r.rok||!m)bezUdaju++;}
+  if(r.rok&&r.rok<=HRANICE&&m)kotva=true;
+  else if(mlada&&r.rok<=HRANICE_RODICE&&v('otec')&&v('matka')&&(m||v('snatek')))pres=true;
+  else if(mlada)mladi++;}
  const doklad=soubory.length>0;box.classList.remove('ok','ne');const ik=box.querySelector('.ik'),tx=box.querySelector('.tx');
- if(kotva){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít.</b> Čím víc osob, roků a obcí doplníte, tím hlouběji se dostaneme.';}
- else if(doklad){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít</b> – vyjdeme z přiloženého dokladu. Pokud znáte roky a obce, doplňte je i tak.';}
- else{box.classList.add('ne');ik.textContent='!';tx.innerHTML=mladi&&!bezUdaju?`<b>Zatím nemáme kde začít:</b> všechny uvedené osoby se narodily po roce ${HRANICE}, kde matriky nejsou veřejné. Přidejte jejich rodiče (jméno, rok a obec narození), nebo přiložte rodný či oddací list.`:'<b>Zatím nemáme kde začít:</b> u aspoň jedné osoby narozené do roku 1925 doplňte rok a obec narození, nebo níže přiložte její rodný či oddací list.';}
- return kotva||doklad;}
+ if(doklad){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít</b> – vyjdeme z přiloženého dokladu. Pokud znáte roky a obce, doplňte je i tak.';}
+ else if(kotva){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít.</b> Čím víc osob, roků a obcí doplníte, tím hlouběji se dostaneme.';}
+ else if(pres){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Zkusíme začít přes sňatek rodičů.</b> Jistější je přiložit rodný či oddací list, nebo přidat předka narozeného do roku 1910.';}
+ else{box.classList.add('ne');ik.textContent='!';tx.innerHTML=mladi?`<b>Zatím nemáme kde začít:</b> knihy narozených po roce ${HRANICE} většinou nejsou na internetu. Doplňte u osoby jména obou rodičů a obec, přidejte předka narozeného do roku ${HRANICE}, nebo přiložte rodný či oddací list.`:`<b>Zatím nemáme kde začít:</b> přiložte rodný či oddací list, nebo u aspoň jedné osoby doplňte rok a obec narození.`;}
+ return kotva||pres||doklad;}
 document.getElementById('pridat').onclick=()=>{pridej(VZTAHY[4]);uloz();start();document.querySelector('#osoby .osoba:last-child input').focus();};
 
 // Rozepsaný formulář si prohlížeč pamatuje (localStorage, jen v tomto zařízení). Fotky ani souhlasy se neukládají.
 const KLIC='rodokmen-podklady',F=document.getElementById('f');
 function sber(){return{jmeno:F.jmeno.value,email:F.email.value,poznamka:F.poznamka.value,osoby:[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={};d.querySelectorAll('[data-pole]').forEach(el=>o[el.dataset.pole]=el.value);return o;}),cas:Date.now()};}
-function prazdny(s){return !s.jmeno&&!s.email&&!s.poznamka&&s.osoby.every(o=>!o.jmeno&&!o.rok&&!o.misto);}
+function prazdny(s){return !s.jmeno&&!s.email&&!s.poznamka&&s.osoby.every(o=>!o.jmeno&&!o.rok&&!o.misto&&!o.otec&&!o.matka&&!o.snatek);}
 let t;function uloz(){clearTimeout(t);t=setTimeout(()=>{try{const s=sber();if(prazdny(s))localStorage.removeItem(KLIC);else localStorage.setItem(KLIC,JSON.stringify(s));}catch(e){}},250);}
 function smazKoncept(){try{localStorage.removeItem(KLIC)}catch(e){}}
 let koncept=null;try{koncept=JSON.parse(localStorage.getItem(KLIC)||'null');}catch(e){}
@@ -245,7 +259,7 @@ document.getElementById('f').addEventListener('submit',e=>{const stav=document.g
  const chyba=(el,msg)=>{e.preventDefault();el.setCustomValidity(msg);el.addEventListener('input',()=>el.setCustomValidity(''),{once:true});F.reportValidity();};
  if(F.jmeno.value.length<3){chyba(F.jmeno,'Napište prosím celé jméno a příjmení.');return;}
  for(const d of document.querySelectorAll('#osoby .osoba')){const j=d.querySelector('[data-pole=jmeno]'),rk=d.querySelector('[data-pole=rok]');if(j.value.length<2){chyba(j,'Napište prosím jméno osoby, nebo ji křížkem odeberte.');return;}if(rokZ(rk.value).chyba){chyba(rk,'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).');return;}}
- if(!start()){e.preventDefault();const s=document.getElementById('start');s.scrollIntoView({behavior:'smooth',block:'center'});s.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:500});stav.innerHTML='<span style="color:#b0432c">Zatím nemáme kde začít hledat – doplňte prosím u některé osoby narozené do roku 1925 rok a obec narození, nebo přiložte rodný či oddací list. Bez toho bychom vám museli psát o doplnění.</span>';return;}
+ if(!start()){e.preventDefault();const s=document.getElementById('start');s.scrollIntoView({behavior:'smooth',block:'center'});s.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:500});stav.innerHTML='<span style="color:#b0432c">Zatím nemáme kde začít hledat – přiložte prosím rodný či oddací list, nebo doplňte údaje podle rámečku výše. Bez toho bychom vám museli psát o doplnění.</span>';return;}
  stav.textContent='';const inp=document.getElementById('fotky');if(soubory.length){const dt=new DataTransfer();soubory.forEach(x=>dt.items.add(x));inp.files=dt.files;inp.name='doklad';}
  const mb=[...inp.files].reduce((a,f)=>a+f.size,0)/1048576;if(mb>MAX_MB){e.preventDefault();document.getElementById('stav').innerHTML='<span style="color:#b00">Přílohy přesahují 10 MB. Uberte fotky, nebo formulář odešlete bez nich a fotky pošlete e-mailem na zakazky@online-rodokmen.cz.</span>';return;}
  document.getElementById('odeslat').disabled=true;document.getElementById('stav').textContent='Odesílám…';smazKoncept();});
