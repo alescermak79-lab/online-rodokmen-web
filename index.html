@@ -131,11 +131,8 @@
     <input type="hidden" name="_next" value="https://online-rodokmen.cz/dekujeme.html">
     <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
     <div class="obnoveno" id="obnoveno" hidden><span>Obnovili jsme váš rozepsaný formulář z minulé návštěvy. Fotky dokladů je potřeba vybrat znovu.</span><button type="button" id="zacitZnovu">Začít znovu</button></div>
-    <fieldset>
-      <legend>Vaše údaje</legend>
-      <label for="jmeno">Jméno a příjmení</label><input id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
-      <label for="email">E-mail (sem pošleme náhled)</label><input id="email" type="email" name="email" required autocomplete="email" maxlength="120" pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" title="Zadejte celou e-mailovou adresu včetně domény, např. jana.novakova@seznam.cz">
-    </fieldset>
+    <ol class="postup" id="postup" aria-label="Postup vyplnění"><li class="akt" data-k="1"><b>1</b> Co o rodině víte</li><li data-k="2"><b>2</b> Kam poslat náhled</li></ol>
+    <div class="krok" id="krok1" data-krok="1">
     <fieldset>
       <legend>Fotka dokladu – nejjistější cesta</legend>
       <div class="files">
@@ -151,7 +148,20 @@
       <div id="osoby"></div>
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
       <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
-      <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího</label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
+    </fieldset>
+    <div class="dal-blok"><button type="button" class="btn" id="dal">Pokračovat – kam poslat náhled</button>
+    <p class="mikro">Další krok je poslední: jméno, e-mail a souhlasy.</p></div>
+    </div>
+    <div class="krok" id="krok2" data-krok="2" hidden>
+    <button type="button" class="zpet" id="zpet">← Zpět k údajům o rodině</button>
+    <fieldset>
+      <legend>Kam poslat náhled</legend>
+      <label for="jmeno">Jméno a příjmení</label><input id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
+      <label for="email">E-mail (sem pošleme náhled)</label><input id="email" type="email" name="email" required autocomplete="email" maxlength="120" pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}" title="Zadejte celou e-mailovou adresu včetně domény, např. jana.novakova@seznam.cz">
+    </fieldset>
+    <fieldset>
+      <legend>Poznámka</legend>
+      <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího <span class="dop">(nepovinné)</span></label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
     </fieldset>
     <fieldset>
       <legend>Máte dárkový poukaz?</legend>
@@ -163,8 +173,10 @@
       <label class="check"><input type="checkbox" name="souhlas_zijici" value="ano" required><span>Údaje o žijících příbuzných uvádím s jejich vědomím.</span></label>
       <p class="hint">Náhled je zdarma a k ničemu vás nezavazuje. Až zaplatíte nabídku, dostanete rodokmen ihned; podrobnosti najdete v nabídce a v podmínkách.</p>
     </fieldset>
-    <button class="btn" type="submit" id="odeslat">Odeslat podklady</button>
+    <button class="btn" type="submit" id="odeslat">Získat náhled rodokmenu zdarma</button>
+    <p class="mikro">Zdarma · náhled do 5 pracovních dnů · platíte jen za doložené předky</p>
     <div class="stav" id="stav"></div>
+    </div>
   </form>
 </section>
 
@@ -198,9 +210,8 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 <div><label for="o${n}p">Příjmení <span class="dop">(u žen i rodné)</span></label><input id="o${n}p" type="text" name="osoba${n}_prijmeni" data-pole="prijmeni" required autocomplete="off" maxlength="60"></div>
 <div><label for="o${n}v">Vztah k vám</label><select id="o${n}v" name="osoba${n}_vztah" data-pole="vztah">${VZTAHY.map(v=>`<option${v===vztah?' selected':''}>${v}</option>`).join('')}</select></div>
 <div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20"></div>
-<div><label for="o${n}a">Odkud pochází</label><select id="o${n}a" name="osoba${n}_oblast" data-pole="oblast">${OBLASTI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
+<div class="cela chipsw"><label for="o${n}a" id="o${n}al">Odkud pochází</label><select class="sr" id="o${n}a" name="osoba${n}_oblast" data-pole="oblast" aria-labelledby="o${n}al">${OBLASTI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
 <div><label for="o${n}m">Obec narození a okres <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
-<div><label for="o${n}y">Vyznání</label><select id="o${n}y" name="osoba${n}_vyznani" data-pole="vyznani">${VYZNANI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
 <div class="rodice" hidden>
 <p class="rodtx">Narození po roce 1910 většinou není v matrikách na internetu. Uveďte prosím rodiče této osoby – hledat budeme přes jejich sňatek.</p>
 <div><label for="o${n}o">Otec <span class="dop">(jméno a příjmení)</span></label><input id="o${n}o" type="text" name="osoba${n}_otec" data-pole="otec" autocomplete="off" maxlength="120"></div>
@@ -209,12 +220,20 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 </div>
 <details class="dalsi"><summary>Další údaje o této osobě <span class="dop">(nepovinné, pomůžou výzkumu)</span></summary>
 <div class="dalsi-obsah">
+<div class="chipsw"><label for="o${n}y" id="o${n}yl">Vyznání</label><select class="sr" id="o${n}y" name="osoba${n}_vyznani" data-pole="vyznani" aria-labelledby="o${n}yl">${VYZNANI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
 <div><label for="o${n}z">Povolání <span class="dop">(i otce nebo manžela)</span></label><input id="o${n}z" type="text" name="osoba${n}_povolani" data-pole="povolani" placeholder="např. švec, rolník" autocomplete="off" maxlength="80"></div>
 <div class="vim">${VIM.map(v=>`<label class="check mini"><input type="checkbox" name="osoba${n}_${v[0]}" data-pole="${v[0]}" value="ano"><span>${v[1]}</span></label>`).join('')}</div>
 </div></details>
 <button type="button" class="rm" title="Odebrat osobu" aria-label="Odebrat osobu">×</button>`;
  if(data){for(const el of d.querySelectorAll('[data-pole]')){if(data[el.dataset.pole]!=null){if(el.type==='checkbox')el.checked=!!data[el.dataset.pole];else el.value=data[el.dataset.pole];}}}
+ d.querySelectorAll('.chipsw select').forEach(chipify);
  d.querySelector('.rm').onclick=()=>{d.remove();uloz();start();};document.getElementById('osoby').appendChild(d);}
+// Předdefinované volby jako klikací čipy; skrytý <select> drží hodnotu pro odeslání i uložený koncept.
+function chipify(sel){const w=document.createElement('div');w.className='chips';w.setAttribute('role','radiogroup');w.setAttribute('aria-labelledby',sel.getAttribute('aria-labelledby'));
+ [...sel.options].filter(o=>o.value).forEach(o=>{const b=document.createElement('button');b.type='button';b.className='chip';b.textContent=o.text;b.dataset.v=o.value;b.setAttribute('role','radio');
+  b.onclick=()=>{sel.value=sel.value===o.value?'':o.value;sel.dispatchEvent(new Event('change',{bubbles:true}));};w.appendChild(b);});
+ const sync=()=>w.querySelectorAll('.chip').forEach(b=>{const on=b.dataset.v===sel.value;b.classList.toggle('on',on);b.setAttribute('aria-checked',on);});
+ sel.addEventListener('change',sync);sel.after(w);sync();}
 
 // Rok: z volného textu („asi 1905“, „1905?“, „1. 2. 1930“) vytáhneme čtyřmístný letopočet; jiný neprázdný text je chyba.
 const ROK_MAX=new Date().getFullYear(),HRANICE=1910,HRANICE_RODICE=1930;
@@ -266,7 +285,42 @@ document.getElementById('fotky').addEventListener('change',async e=>{const s=doc
  s.innerHTML=soubory.map(f=>`• ${f.name} (${(f.size/1024).toFixed(0)} kB)`).join('<br>')+(soubory.length?`<br><b>Celkem ${mb.toFixed(1)} MB</b>`:'Žádný použitelný soubor.')+(mb>MAX_MB?' – <span style="color:#b00">to je nad limit 10 MB, uberte prosím fotky nebo je pošlete e-mailem po odeslání.</span>':'')+odmitnute.map(t=>`<br><span style="color:#8a5a12">Vynecháno: ${t}</span>`).join('');
  if(!soubory.length)e.target.value='';start();});
 function zmensi(f){return new Promise((ok,ko)=>{const img=new Image();img.onload=()=>{const k=Math.min(1,MAX_PX/Math.max(img.width,img.height));const c=document.createElement('canvas');c.width=img.width*k;c.height=img.height*k;c.getContext('2d').drawImage(img,0,0,c.width,c.height);c.toBlob(b=>ok(new File([b],f.name.replace(/\.\w+$/,'')+'.jpg',{type:'image/jpeg'})),'image/jpeg',0.82);};img.onerror=ko;img.src=URL.createObjectURL(f);});}
+// ---- Dva kroky: 1) co o rodině víte, 2) kam poslat náhled ----
+const K1=document.getElementById('krok1'),K2=document.getElementById('krok2');
+function udal(n,d){document.dispatchEvent(new CustomEvent(n,{detail:d||{}}));}
+function jdi(k){K1.hidden=k!==1;K2.hidden=k!==2;document.querySelectorAll('#postup li').forEach(li=>li.classList.toggle('akt',+li.dataset.k===k));
+ document.getElementById('objednat').scrollIntoView({behavior:'smooth',block:'start'});udal('formular:krok',{n:k});if(k===2)setTimeout(()=>F.jmeno.focus({preventScroll:true}),350);}
+function chybaOsoby(d,el,msg,pole){let c=d.querySelector('.chyba2');if(!c){c=document.createElement('p');c.className='chyba chyba2';c.setAttribute('role','alert');d.appendChild(c);}
+ c.textContent=msg;const smaz=()=>{c.remove();};d.addEventListener('input',smaz,{once:true});d.addEventListener('change',smaz,{once:true});
+ el.scrollIntoView({behavior:'smooth',block:'center'});el.focus({preventScroll:true});udal('formular:chyba',{krok:1,pole});return false;}
+// Co výzkum nutně potřebuje u první osoby: příjmení, křestní jméno (nebo „neznám“), rok, oblast a obec s okresem; s dokladem stačí jméno.
+function krok1ok(){for(const el of K1.querySelectorAll('input,select,textarea'))el.setCustomValidity&&el.setCustomValidity('');
+ for(const el of K1.querySelectorAll('input[required]')){if(!el.checkValidity()){el.reportValidity();return false;}}
+ const osoby=[...document.querySelectorAll('#osoby .osoba')];if(!osoby.length)return false;
+ const doklad=soubory.length>0;
+ for(const [i,d] of osoby.entries()){const g=p=>d.querySelector(`[data-pole=${p}]`);
+  if(!g('jmeno_nezname').checked&&g('jmeno').value.trim().length<2)return chybaOsoby(d,g('jmeno'),'Napište křestní jméno, nebo zaškrtněte „Křestní jméno neznám“.','osoba_jmeno');
+  if(g('prijmeni').value.trim().length<2)return chybaOsoby(d,g('prijmeni'),'Napište prosím příjmení osoby, nebo ji křížkem odeberte.','osoba_prijmeni');
+  if(rokZ(g('rok').value).chyba)return chybaOsoby(d,g('rok'),'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).','osoba_rok');
+  if(i===0&&!doklad){
+   if(rokZ(g('rok').value).prazdny)return chybaOsoby(d,g('rok'),'Doplňte rok narození, klidně přibližný – podle něj poznáme, ve které knize hledat.','osoba_rok');
+   if(!g('oblast').value)return chybaOsoby(d,d.querySelector('.chips button'),'Vyberte, odkud osoba pochází (Čechy, Morava, Slezsko, Slovensko).','osoba_oblast');
+   if(g('misto').value.trim().length<2)return chybaOsoby(d,g('misto'),'Doplňte obec narození (nebo sňatku) a okres – bez obce nevíme, kterou matriku otevřít.','osoba_misto');}}
+ if(!start()){const b=document.getElementById('start');b.scrollIntoView({behavior:'smooth',block:'center'});b.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:400});udal('formular:chyba',{krok:1,pole:'start'});return false;}
+ return true;}
+document.getElementById('dal').onclick=()=>{for(const el of F.querySelectorAll('input[type=text],textarea'))el.value=el.value.replace(/\s+/g,' ').trim();if(krok1ok()){udal('formular:hotovo',{n:1});jdi(2);}};
+document.getElementById('zpet').onclick=()=>jdi(1);
+// Kontrola po opuštění pole (ne při psaní) + zelená fajfka u správně vyplněného
+F.addEventListener('focusout',e=>{const el=e.target;if(!el.matches||!el.matches('#email,#jmeno,[data-pole=prijmeni],[data-pole=rok]'))return;
+ const v=el.value.trim();let msg='';
+ if(el.id==='email'&&v&&!el.checkValidity())msg='Zadejte celou adresu včetně domény, např. jana.novakova@seznam.cz';
+ else if(el.id==='jmeno'&&v&&v.length<3)msg='Napište prosím celé jméno a příjmení.';
+ else if(el.dataset.pole==='rok'&&v&&rokZ(v).chyba)msg='Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).';
+ let c=el.parentNode.querySelector('.inl');if(msg){if(!c){c=document.createElement('p');c.className='chyba inl';el.after(c);}c.textContent=msg;el.classList.remove('dobre');}
+ else{if(c)c.remove();el.classList.toggle('dobre',!!v&&(el.id!=='email'||el.checkValidity()));}});
+F.addEventListener('input',e=>{const c=e.target.parentNode&&e.target.parentNode.querySelector&&e.target.parentNode.querySelector('.inl');if(c){c.remove();}e.target.classList&&e.target.classList.remove('dobre');});
 document.getElementById('f').addEventListener('submit',e=>{const stav=document.getElementById('stav');
+ if(K2.hidden){e.preventDefault();document.getElementById('dal').click();return;}
  for(const el of F.querySelectorAll('input[type=text],input[type=email],textarea'))el.value=el.value.replace(/\s+/g,' ').trim();
  const chyba=(el,msg)=>{e.preventDefault();el.setCustomValidity(msg);el.addEventListener('input',()=>el.setCustomValidity(''),{once:true});F.reportValidity();};
  if(F.jmeno.value.length<3){chyba(F.jmeno,'Napište prosím celé jméno a příjmení.');return;}

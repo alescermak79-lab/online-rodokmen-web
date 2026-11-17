@@ -122,26 +122,35 @@
   var f = document.getElementById("f");
   if (f) {
     // Žádné osobní údaje: posíláme jen názvy typů polí, počty a pásma roků.
-    var zacal = false, odeslano = false, posledni = "", kroky = {};
+    var zacal = false, odeslano = false, posledni = "", videno = {}, krokCas = Date.now(), zacatekCas = 0;
     function typPole(el) {
       var n = (el && el.name) || "";
-      if (!n) return el && el.id === "fotky" ? "doklad" : "";
+      if (!n) return el && el.id === "fotky" ? "doklad" : (el && el.classList && el.classList.contains("chip") ? "volba" : "");
       return n.replace(/^osoba\d+_/, "osoba_");
     }
-    function krokPole(el) {
-      var fs = el && el.closest && el.closest("fieldset");
-      var l = fs && fs.querySelector("legend");
-      return l ? l.textContent.trim().slice(0, 30) : "";
-    }
+    function aktKrok() { var k2 = document.getElementById("krok2"); return k2 && !k2.hidden ? 2 : 1; }
+    function sek(od) { return Math.round((Date.now() - od) / 1000); }
+    // Trychtýř: formular_zacatek -> formular_krok_1 -> formular_krok_1_hotovo -> formular_krok_2 -> generate_lead
     f.addEventListener("focusin", function (e) {
-      if (!zacal) { zacal = true; udalost("formular_zacatek"); }
-      posledni = typPole(e.target);
-      var k = krokPole(e.target);
-      if (k && !kroky[k]) { kroky[k] = 1; udalost("formular_krok", { krok: k }); }
+      if (!zacal) { zacal = true; zacatekCas = Date.now(); krokCas = Date.now(); udalost("formular_zacatek"); udalost("formular_krok_1", { krok: 1 }); }
+      var p = typPole(e.target); if (!p) return;
+      posledni = p;
+      var id = aktKrok() + ":" + p;
+      if (!videno[id]) { videno[id] = 1; udalost("formular_pole", { krok: aktKrok(), pole: p }); }
     });
     f.addEventListener("invalid", function (e) {
-      udalost("formular_chyba", { pole: typPole(e.target) });
+      udalost("formular_chyba", { krok: aktKrok(), pole: typPole(e.target) });
     }, true);
+    document.addEventListener("formular:chyba", function (e) {
+      udalost("formular_chyba", { krok: e.detail.krok, pole: e.detail.pole });
+    });
+    document.addEventListener("formular:hotovo", function (e) {
+      udalost("formular_krok_" + e.detail.n + "_hotovo", { krok: e.detail.n, sekund: sek(krokCas) });
+    });
+    document.addEventListener("formular:krok", function (e) {
+      udalost("formular_krok_" + e.detail.n, { krok: e.detail.n });
+      krokCas = Date.now();
+    });
     var fotky = document.getElementById("fotky");
     if (fotky) fotky.addEventListener("change", function () {
       if (fotky.files && fotky.files.length) udalost("doklad_pridan", { pocet: fotky.files.length });
@@ -150,7 +159,7 @@
     if (pridat) pridat.addEventListener("click", function () { udalost("osoba_pridana"); });
     // Opuštění stránky s rozepsaným a neodeslaným formulářem: u kterého pole lidé skončili
     function opusteni() {
-      if (zacal && !odeslano) { udalost("formular_opusten", { posledni_pole: posledni || "?", transport_type: "beacon" }); zacal = false; }
+      if (zacal && !odeslano) { udalost("formular_opusten", { krok: aktKrok(), posledni_pole: posledni || "?", sekund: sek(zacatekCas), transport_type: "beacon" }); zacal = false; }
     }
     document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") opusteni(); });
     window.addEventListener("pagehide", opusteni);
@@ -184,10 +193,10 @@
     }
     f.addEventListener("submit", function (e) {
       // Inline skript webu při neprojité kontrole volá preventDefault dřív než tento posluchač.
-      if (e.defaultPrevented) { udalost("formular_zablokovan", { posledni_pole: posledni || "?" }); return; }
+      if (e.defaultPrevented) { if (aktKrok() === 2) udalost("formular_zablokovan", { posledni_pole: posledni || "?" }); return; }
       odeslano = true;
       udalost("generate_lead", { formular: "objednavka", transport_type: "beacon" });
-      var q = kvalita(); q.transport_type = "beacon";
+      var q = kvalita(); q.sekund = sek(zacatekCas); q.transport_type = "beacon";
       udalost("formular_kvalita", q);
       // Hodnota pro Sklik: u poukazu zvolená částka, u objednávky odhad typického rodokmenu
       var c = f.querySelector('input[name="castka"]:checked');
