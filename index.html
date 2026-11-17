@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css">
+<link rel="stylesheet" href="styl.css?v=20261117b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -149,8 +149,8 @@
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
       <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
     </fieldset>
-    <div class="dal-blok"><button type="button" class="btn" id="dal">Pokračovat – kam poslat náhled</button>
-    <p class="mikro">Další krok je poslední: jméno, e-mail a souhlasy.</p></div>
+    <div class="dal-blok"><button type="button" class="btn dal" id="dal">Pokračovat: jméno a e-mail <span aria-hidden="true">→</span></button>
+    <p class="mikro">Krok 1 ze 2 · zbývá půl minuty</p></div>
     </div>
     <div class="krok" id="krok2" data-krok="2" hidden>
     <button type="button" class="zpet" id="zpet">← Zpět k údajům o rodině</button>
@@ -360,6 +360,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js" defer></script>
+<script src="mereni.js?v=20261117b" defer></script>
 </body>
 </html>
