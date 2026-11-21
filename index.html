@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121b">
+<link rel="stylesheet" href="styl.css?v=20261121c">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -134,11 +134,11 @@
     <ol class="postup" id="postup" aria-label="Postup vyplnění"><li class="akt" data-k="1"><b>1</b> Co o rodině víte</li><li data-k="2"><b>2</b> Kam poslat náhled</li></ol>
     <div class="krok" id="krok1" data-krok="1">
     <fieldset>
-      <legend>Fotka dokladu – nejjistější cesta</legend>
+      <legend>Fotka dokladu nebo hrobu – nejjistější cesta</legend>
       <div class="files">
         <label class="vyber" for="fotky">Vybrat fotky nebo PDF</label>
         <input type="file" id="fotky" accept="image/*,.pdf,application/pdf" multiple>
-        <p class="hint"><b>Jeden rodný, křestní nebo oddací list prarodičů nahradí většinu polí níže</b> – jsou na něm rodiče i jejich původ. Hodí se i úmrtní oznámení a fotky náhrobků (JPG, PNG, HEIC, PDF; celkem do 10 MB). Fotky před odesláním automaticky zmenšíme. Rodná čísla prosím zakryjte.</p>
+        <p class="hint"><b>Jeden rodný, křestní nebo oddací list prarodičů nahradí většinu polí níže</b> – jsou na něm rodiče i jejich původ. <b>Pomůže i fotka hrobu, na které jsou čitelná jména a data narození</b>, nebo úmrtní oznámení (JPG, PNG, HEIC, PDF; celkem do 10 MB). Fotky před odesláním automaticky zmenšíme. Rodná čísla prosím zakryjte.</p>
         <div id="seznamFotek"></div>
       </div>
     </fieldset>
@@ -208,7 +208,7 @@
 <script>
 const VZTAHY=["dědeček (z otcovy strany)","babička (z otcovy strany)","dědeček (z matčiny strany)","babička (z matčiny strany)","pradědeček","prababička","otec","matka","jiný příbuzný"];
 const VYZNANI=[["","Nevím"],["katolicke","Římskokatolické"],["evangelicke","Evangelické"],["zidovske","Židovské"],["jine","Jiné"]];
-const VIM=[["vim_pohranici","Rodina pocházela z pohraničí nebo mluvila německy"],["vim_prijmeni_jinak","Příjmení se psalo nebo píše jinak (německy, slovensky…)"],["vim_stehovani","Rodina se stěhovala (za prací, po válce…)"],["vim_vice_manzelstvi","Osoba měla víc manželství"],["vim_dalsi_doklady","Mám i další doklady (úmrtní oznámení, fotky náhrobků…)"]];
+const VIM=[["vim_pohranici","Rodina pocházela z pohraničí nebo mluvila německy"],["vim_prijmeni_jinak","Příjmení se psalo nebo píše jinak (německy, slovensky…)"],["vim_stehovani","Rodina se stěhovala (za prací, po válce…)"],["vim_vice_manzelstvi","Osoba měla víc manželství"],["vim_dalsi_doklady","Mám i další doklady (úmrtní oznámení, fotky hrobů s daty…)"]];
 let n=0,soubory=[];
 function pridej(vztah,data){n++;const d=document.createElement('div');d.className='osoba';d.innerHTML=`
 <div><label for="o${n}j">Křestní jméno</label><input id="o${n}j" type="text" name="osoba${n}_jmeno" data-pole="jmeno" autocomplete="off" maxlength="60">
@@ -259,7 +259,7 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  if(doklad){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít</b> – vyjdeme z přiloženého dokladu. Pokud znáte roky a obce, doplňte je i tak.';}
  else if(kotva){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít.</b> Čím víc osob, roků a obcí doplníte, tím hlouběji se dostaneme.';}
  else if(pres){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Zkusíme začít přes sňatek rodičů.</b> Jistější je přiložit rodný či oddací list, nebo přidat předka narozeného do roku 1910.';}
- else{box.classList.add('ne');ik.textContent='!';tx.innerHTML=mladi?`<b>Zatím nemáme kde začít:</b> knihy narozených po roce ${HRANICE} většinou nejsou na internetu. Doplňte u osoby jména obou rodičů a obec, přidejte předka narozeného do roku ${HRANICE}, nebo přiložte rodný či oddací list.`:`<b>Zatím nemáme kde začít:</b> přiložte rodný či oddací list, nebo u aspoň jedné osoby doplňte rok a obec narození.`;}
+ else{box.classList.add('ne');ik.textContent='!';tx.innerHTML=mladi?`<b>Zatím nemáme kde začít:</b> knihy narozených po roce ${HRANICE} většinou nejsou na internetu. Doplňte u osoby jména obou rodičů a obec, přidejte předka narozeného do roku ${HRANICE}, nebo přiložte rodný či oddací list.`:`<b>Zatím nemáme kde začít:</b> přiložte rodný či oddací list nebo fotku hrobu s daty, nebo u aspoň jedné osoby doplňte rok a obec narození.`;}
  const ok=kotva||pres||doklad;sance();return ok;}
 // Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
 // Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
@@ -297,15 +297,15 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  else if(!maStart(os,doklad)){const r=o?rokZ(o.rok):{};
   tip=r.rok>HRANICE_RODICE?'Narození po roce '+HRANICE_RODICE+' v matrikách nenajdeme. Přidejte rodiče této osoby jako další osobu (jméno, rok a obec narození).'
   :r.rok>HRANICE?'U narození po roce '+HRANICE+' hledáme přes rodiče: doplňte oba rodiče a obec nebo místo jejich sňatku.'
-  :'Abychom měli kde začít, doplňte rok a obec narození, nebo přiložte rodný či oddací list.';}
- else if(!doklad)tip='Výborně, máte vyplněno vše podstatné. Fotka rodného či oddacího listu by šanci ještě zvýšila.';
+  :'Abychom měli kde začít, doplňte rok a obec narození, nebo přiložte rodný či oddací list nebo fotku hrobu s daty.';}
+ else if(!doklad)tip='Výborně, máte vyplněno vše podstatné. Fotka rodného či oddacího listu nebo hrobu s daty by šanci ještě zvýšila.';
  else tip='Máme vše, co potřebujeme. Děkujeme!';
  document.getElementById('sanceTip').textContent=tip;
  const ul=document.getElementById('sanceCo');ul.innerHTML='';
  navrhy.slice(0,4).forEach((p,i)=>{const li=document.createElement('li'),b=document.createElement('button');b.type='button';if(!i)b.className='top';
   b.textContent=p.t.charAt(0).toUpperCase()+p.t.slice(1)+' ';const z=document.createElement('span');z.textContent='+'+p.z+' %';b.appendChild(z);
   b.onclick=()=>sanceFokus(o.el,p.k);li.appendChild(b);ul.appendChild(li);});
- if(!doklad){const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='doklad';b.textContent='Fotka dokladu ';
+ if(!doklad){const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='doklad';b.textContent='Fotka dokladu nebo hrobu ';
   const z=document.createElement('span');z.textContent='+'+(skore(os,true)-ted)+' %';b.appendChild(z);
   b.onclick=()=>{const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}
  if(box.dataset.posl!==zona){if(box.dataset.posl)udal('formular:sance',{zona,odhad:ted});box.dataset.posl=zona;}}
@@ -415,6 +415,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121b" defer></script>
+<script src="mereni.js?v=20261121c" defer></script>
 </body>
 </html>
