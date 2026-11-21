@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121d">
+<link rel="stylesheet" href="styl.css?v=20261121e">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -243,9 +243,11 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
   const mlada=!!(r.rok&&r.rok>HRANICE);rod.hidden=!(mlada&&r.rok<=HRANICE_RODICE)&&!v('otec')&&!v('matka')&&!v('snatek');
   let txt='';if(r.chyba)txt='Rok nepoznáme – napište letopočet čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).';
   else if(r.rok&&r.rok>HRANICE_RODICE)txt=`Narození po roce ${HRANICE_RODICE} je na hledání v matrikách příliš mladé. Přidejte prosím rodiče této osoby jako další osoby (jméno, rok a obec narození), nebo přiložte její rodný či oddací list.`;
+  else if(CIZINA.test(m)||CIZINA.test(v('snatek')))txt='Archivy mimo Česko a Slovensko neprohledáváme. Přidejte prosím předka, který žil u nás (jméno, rok a obec narození), a do poznámky napište, odkud rodina přišla.';
   else if(/^praha\.?$/i.test(m))txt='Praha má desítky farností. Připište prosím čtvrť nebo kostel (např. „Praha – Břevnov“), jinak nevíme, ve které matrice hledat.';
   if(txt){if(!ch){ch=document.createElement('p');ch.className='chyba';d.appendChild(ch);}ch.textContent=txt;}else if(ch)ch.remove();
-  if(r.rok&&r.rok<=HRANICE&&m)kotva=true;
+  if(CIZINA.test(m)||CIZINA.test(v('snatek')));
+  else if(r.rok&&r.rok<=HRANICE&&m)kotva=true;
   else if(mlada&&r.rok<=HRANICE_RODICE&&v('otec')&&v('matka')&&(m||v('snatek')))pres=true;
   else if(mlada)mladi++;}
  const doklad=soubory.length>0;box.classList.remove('ok','ne');const ik=box.querySelector('.ik'),tx=box.querySelector('.tx');
@@ -256,17 +258,20 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  const ok=kotva||pres||doklad;sance();return ok;}
 // Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
 // Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
-const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],];
+const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:0],['matka','jméno matky',m=>m?10:0],['snatek','kde a kdy se rodiče brali',m=>m?15:0],];
 const SANCE_ZONY={red:['Zatím malá šance'],yellow:['Slušná šance – ještě něco přidejte'],green:['Velká šance, že předky najdeme']};
 const ROK_ASI=/asi|kolem|okolo|cca|\?|~|př/i;
 function sanceData(){return[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={el:d};d.querySelectorAll('[data-pole]').forEach(e=>o[e.dataset.pole]=e.type==='checkbox'?e.checked:e.value.trim());return o;});}
-function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0;
+const CIZINA=/(?<!\p{L})(rusko|ukrajina|polsko|německo|nemecko|rakousko|maďarsko|madarsko|rumunsko|bulharsko|srbsko|chorvatsko|jugoslávie|jugoslavie|itálie|italie|francie|anglie|británie|britanie|bělorusko|belorusko|litva|lotyšsko|volyň|volyn|usa|amerika|kanada|argentina|brazílie|brazilie|austrálie|australie)(?!\p{L})/iu;
+const PRAHA_HOLA=/^praha\.?$/i;
+function ciziOsoba(o){return CIZINA.test(o.misto||'')||CIZINA.test(o.snatek||'');}
+function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0;if(ciziOsoba(o))return 0;
  for(const[k,,b]of SANCE_POLE){const max=b(mlada);if(!max)continue;
-  if(k==='rok'){if(r.rok)s+=ROK_ASI.test(o.rok)?12:18;}else if(k==='jmeno'){if(o.jmeno&&!o.jmeno_nezname)s+=max;}else if(o[k])s+=max;}
+  if(k==='rok'){if(r.rok)s+=ROK_ASI.test(o.rok)?12:18;}else if(k==='jmeno'){if(o.jmeno&&!o.jmeno_nezname)s+=max;}else if(k==='misto'){if(o.misto&&!PRAHA_HOLA.test(o.misto))s+=max;}else if(o[k])s+=max;}
  if(r.rok&&r.rok>HRANICE_RODICE)s=Math.min(s,15);
- else if(mlada){if(!o.otec&&!o.matka)s=Math.min(s,30);else if(!(o.otec&&o.matka&&(o.misto||o.snatek)))s=Math.min(s,60);else s=Math.min(s,80);}
+ else if(mlada){if(!o.otec&&!o.matka)s=Math.min(s,30);else if(!(o.otec&&o.matka&&(o.misto||o.snatek)))s=Math.min(s,60);else s=Math.min(s,65);}
  return s;}
-function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
+function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);if(ciziOsoba(o))return false;return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
 function skore(os,doklad){if(!os.length)return doklad?40:0;const b=os.map(bodyOsoby),nej=Math.max(...b),ni=b.indexOf(nej);
  const dalsi=Math.min(20,os.reduce((a,o,i)=>a+(i===ni?0:maStart([o],false)?10:o.prijmeni?4:0),0));
  let s=nej+dalsi+(doklad?40:0);if(!maStart(os,doklad))s=Math.min(s,30);return Math.min(95,s);}
@@ -276,20 +281,21 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  const navrhy=[];
  if(o){const mlada=(rokZ(o.rok).rok||0)>HRANICE;
   for(const[k,t,b]of SANCE_POLE){if(!b(mlada))continue;if(k==='jmeno'&&o.jmeno_nezname)continue;
-   let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else{if(o[k])continue;zmena[k]='x';}
-   const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':t,z});}}
+   let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else if(k==='misto'&&PRAHA_HOLA.test(o.misto)){zmena.misto='Praha – x';}else{if(o[k])continue;zmena[k]='x';}
+   const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':k==='misto'&&o.misto?'čtvrť Prahy (např. Praha – Břevnov)':t,z});}}
  if(o){const z=skore(os.concat([{jmeno:'x',prijmeni:'x',rok:'1880',misto:'x'}]),doklad)-ted;if(z>0)navrhy.push({k:'_osoba',t:'další předek (třeba jeho rodiče)',z});}
  navrhy.sort((a,b)=>b.z-a.z);
- const nej=navrhy[0];let zona=ted<35?'red':ted<60?'yellow':'green';
+ const nej=navrhy[0];let zona=ted<35?'red':ted<70?'yellow':'green';
  box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
  const pr=document.getElementById('sancePruh');pr.setAttribute('aria-valuenow',ted);pr.setAttribute('aria-valuetext',SANCE_ZONY[zona][0]);
  pr.querySelector('.ted').style.width=Math.max(4,ted)+'%';pr.querySelector('.nab').style.width=(nej?Math.min(95,ted+nej.z):ted)+'%';
  document.getElementById('sanceOdhad').value=ted;
  const kdo=os.length>1&&o?(' u osoby '+[o.jmeno,o.prijmeni].filter(Boolean).join(' ')).trimEnd():'';
  let tip;
- if(nej)tip=nej.k==='_osoba'?`Nejvíc vám teď pomůže přidat dalšího předka s rokem a obcí narození – třeba rodiče nebo předka z druhé strany rodiny (+${nej.z} %).`:`Nejvíc vám teď pomůže${kdo}: ${nej.t} (+${nej.z} %). Světlejší část pruhu ukazuje, kam se posunete.`;
+ if(o&&ciziOsoba(o)&&!maStart(os,doklad))tip='Archivy mimo Česko a Slovensko neprohledáváme. Přidejte předka, který žil u nás (jméno, rok a obec narození), a do poznámky napište, odkud rodina přišla.';
+ else if(nej)tip=nej.k==='_osoba'?`Nejvíc vám teď pomůže přidat dalšího předka s rokem a obcí narození – třeba rodiče nebo předka z druhé strany rodiny (+${nej.z} %).`:`Nejvíc vám teď pomůže${kdo}: ${nej.t} (+${nej.z} %). Světlejší část pruhu ukazuje, kam se posunete.`;
  else if(!maStart(os,doklad)){const r=o?rokZ(o.rok):{};
-  tip=r.rok>HRANICE_RODICE?'Narození po roce '+HRANICE_RODICE+' v matrikách nenajdeme. Přidejte rodiče této osoby jako další osobu (jméno, rok a obec narození).'
+  tip=o&&ciziOsoba(o)?'Archivy mimo Česko a Slovensko neprohledáváme. Přidejte předka, který žil u nás (jméno, rok a obec narození), a do poznámky napište, odkud rodina přišla.':r.rok>HRANICE_RODICE?'Narození po roce '+HRANICE_RODICE+' v matrikách nenajdeme. Přidejte rodiče této osoby jako další osobu (jméno, rok a obec narození).'
   :r.rok>HRANICE?'U narození po roce '+HRANICE+' hledáme přes rodiče: doplňte oba rodiče a obec nebo místo jejich sňatku.'
   :'Abychom měli kde začít, doplňte rok a obec narození, nebo přiložte rodný či oddací list nebo fotku hrobu s daty.';}
  else if(!doklad)tip='Výborně, máte vyplněno vše podstatné. Fotka rodného či oddacího listu nebo hrobu s daty by šanci ještě zvýšila.';
@@ -299,10 +305,10 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  if(ul.dataset.podpis!==podpis){ul.dataset.podpis=podpis;ul.innerHTML='';
  navrhy.slice(0,4).forEach((p,i)=>{const li=document.createElement('li'),b=document.createElement('button');b.type='button';if(!i)b.className='top';
   b.textContent=p.t.charAt(0).toUpperCase()+p.t.slice(1)+' ';const z=document.createElement('span');z.textContent='+'+p.z+' %';b.appendChild(z);
-  b.onclick=()=>p.k==='_osoba'?document.getElementById('pridat').click():sanceFokus(o.el,p.k);li.appendChild(b);ul.appendChild(li);});
+  b.onclick=()=>{udal('formular:sance_navrh',{navrh:p.k,odhad:ted});if(p.k==='_osoba')document.getElementById('pridat').click();else sanceFokus(o.el,p.k);};li.appendChild(b);ul.appendChild(li);});
  if(!doklad){const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='doklad';b.textContent='Fotka dokladu nebo hrobu ';
   const z=document.createElement('span');z.textContent='+'+(skore(os,true)-ted)+' %';b.appendChild(z);
-  b.onclick=()=>{const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}}
+  b.onclick=()=>{udal('formular:sance_navrh',{navrh:'doklad',odhad:ted});const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}}
  if(box.dataset.posl!==zona){if(box.dataset.posl)udal('formular:sance',{zona,odhad:ted});box.dataset.posl=zona;}}
 function sanceFokus(d,k){const el=d.querySelector(`[data-pole=${k}]`);if(!el)return;const det=el.closest('details');if(det)det.open=true;
  const cil=el.classList.contains('sr')?el.nextElementSibling.querySelector('.chip'):el;cil.scrollIntoView({behavior:'smooth',block:'center'});cil.focus({preventScroll:true});}
@@ -410,6 +416,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121d" defer></script>
+<script src="mereni.js?v=20261121e" defer></script>
 </body>
 </html>

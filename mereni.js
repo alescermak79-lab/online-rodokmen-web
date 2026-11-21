@@ -129,6 +129,7 @@
       return n.replace(/^osoba\d+_/, "osoba_");
     }
     function aktKrok() { var k2 = document.getElementById("krok2"); return k2 && !k2.hidden ? 2 : 1; }
+    function odhad() { var o = document.getElementById("sanceOdhad"); return o && o.value !== "" ? +o.value : -1; }
     function sek(od) { return Math.round((Date.now() - od) / 1000); }
     // Trychtýř: formular_zacatek -> formular_krok_1 -> formular_krok_1_hotovo -> formular_krok_2 -> generate_lead
     f.addEventListener("focusin", function (e) {
@@ -145,10 +146,13 @@
       udalost("formular_chyba", { krok: e.detail.krok, pole: e.detail.pole });
     });
     document.addEventListener("formular:hotovo", function (e) {
-      udalost("formular_krok_" + e.detail.n + "_hotovo", { krok: e.detail.n, sekund: sek(krokCas) });
+      udalost("formular_krok_" + e.detail.n + "_hotovo", { krok: e.detail.n, sekund: sek(krokCas), odhad: odhad() });
     });
     document.addEventListener("formular:sance", function (e) {
       udalost("formular_sance", { zona: e.detail.zona, odhad: e.detail.odhad });
+    });
+    document.addEventListener("formular:sance_navrh", function (e) {
+      udalost("formular_sance_navrh", { navrh: e.detail.navrh, odhad: e.detail.odhad });
     });
     document.addEventListener("formular:krok", function (e) {
       udalost("formular_krok_" + e.detail.n, { krok: e.detail.n });
@@ -162,7 +166,7 @@
     if (pridat) pridat.addEventListener("click", function () { udalost("osoba_pridana"); });
     // Opuštění stránky s rozepsaným a neodeslaným formulářem: u kterého pole lidé skončili
     function opusteni() {
-      if (zacal && !odeslano) { udalost("formular_opusten", { krok: aktKrok(), posledni_pole: posledni || "?", sekund: sek(zacatekCas), transport_type: "beacon" }); zacal = false; }
+      if (zacal && !odeslano) { udalost("formular_opusten", { krok: aktKrok(), posledni_pole: posledni || "?", sekund: sek(zacatekCas), odhad: odhad(), transport_type: "beacon" }); zacal = false; }
     }
     document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") opusteni(); });
     window.addEventListener("pagehide", opusteni);
