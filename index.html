@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121g">
+<link rel="stylesheet" href="styl.css?v=20261121h">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -273,7 +273,8 @@ function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0
  return s;}
 function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);if(ciziOsoba(o))return false;return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
 function skore(os,doklad){if(!os.length)return doklad?40:0;const b=os.map(bodyOsoby),nej=Math.max(...b),ni=b.indexOf(nej);
- const dalsi=Math.min(20,os.reduce((a,o,i)=>a+(i===ni?0:maStart([o],false)?10:o.prijmeni?4:0),0));
+ // každý další předek přidává průběžně s každým vyplněným polem: čtvrtina jeho bodů, max. 15 (bez roku a obce max. 8), celkem max. 25
+ const dalsi=Math.min(25,os.reduce((a,o,i)=>a+(i===ni?0:Math.min(maStart([o],false)?15:8,Math.round(b[i]/4))),0));
  let s=nej+dalsi+(doklad?40:0);if(!maStart(os,doklad))s=Math.min(s,30);return Math.min(95,s);}
 function sance(){const box=document.getElementById('sance');if(!box)return;const os=sanceData(),doklad=soubory.length>0,ted=skore(os,doklad);
  const bi=os.length?os.map(bodyOsoby).reduce((a,v,i,arr)=>v>arr[a]?i:a,0):-1,o=os[bi];
@@ -417,6 +418,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121g" defer></script>
+<script src="mereni.js?v=20261121h" defer></script>
 </body>
 </html>
