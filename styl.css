@@ -170,7 +170,6 @@ input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg 
 .sance-hl .pozn{margin-left:auto;font-size:12px;color:var(--muted)}
 .sance-pruh{position:relative;height:14px;border-radius:7px;background:#ece5d9;overflow:hidden}
 .sance-pruh i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:7px;background:var(--z);transition:width .4s ease,background .4s ease}
-.sance-pruh .nab{opacity:.3}
 .sance-pruh::before,.sance-pruh::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--bg);z-index:1}
 .sance-pruh::before{left:35%}.sance-pruh::after{left:70%}
 .sance-osa{display:grid;grid-template-columns:35fr 35fr 30fr;font-size:12px;color:var(--muted)}
