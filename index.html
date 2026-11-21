@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121c">
+<link rel="stylesheet" href="styl.css?v=20261121d">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -155,7 +155,8 @@
       </div>
       <div id="osoby"></div>
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
-      <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
+      <button type="button" class="btn sec" id="pridat">+ Přidat dalšího předka a zvýšit šanci</button>
+      <p class="hint">Každý další předek s rokem a obcí narození je další cesta, kudy můžeme v matrikách začít – třeba rodiče výše uvedené osoby nebo předek z druhé strany rodiny.</p>
     </fieldset>
     <div class="dal-blok"><button type="button" class="btn dal" id="dal">Pokračovat: jméno a e-mail <span aria-hidden="true">→</span></button>
     <p class="mikro">Krok 1 ze 2 · zbývá půl minuty</p></div>
@@ -169,7 +170,7 @@
     </fieldset>
     <fieldset>
       <legend>Poznámka</legend>
-      <label for="pozn">Co se v rodině vypráví, odkud rod pochází, cokoli dalšího <span class="dop">(nepovinné)</span></label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
+      <label for="pozn">Co se v rodině vypráví: odkud rod pochází, vyznání (např. evangelíci), povolání, stěhování, cokoli dalšího <span class="dop">(nepovinné)</span></label><textarea id="pozn" name="poznamka" maxlength="4000"></textarea>
     </fieldset>
     <details class="poukaz-roz" id="poukazRoz"><summary>Máte dárkový poukaz?</summary>
       <label for="kod">Kód poukazu (nepovinné)</label><input id="kod" type="text" name="kod_poukazu" placeholder="např. RP-XXXX-XXXX" autocomplete="off" maxlength="20">
@@ -207,8 +208,6 @@
 
 <script>
 const VZTAHY=["dědeček (z otcovy strany)","babička (z otcovy strany)","dědeček (z matčiny strany)","babička (z matčiny strany)","pradědeček","prababička","otec","matka","jiný příbuzný"];
-const VYZNANI=[["","Nevím"],["katolicke","Římskokatolické"],["evangelicke","Evangelické"],["zidovske","Židovské"],["jine","Jiné"]];
-const VIM=[["vim_pohranici","Rodina pocházela z pohraničí nebo mluvila německy"],["vim_prijmeni_jinak","Příjmení se psalo nebo píše jinak (německy, slovensky…)"],["vim_stehovani","Rodina se stěhovala (za prací, po válce…)"],["vim_vice_manzelstvi","Osoba měla víc manželství"],["vim_dalsi_doklady","Mám i další doklady (úmrtní oznámení, fotky hrobů s daty…)"]];
 let n=0,soubory=[];
 function pridej(vztah,data){n++;const d=document.createElement('div');d.className='osoba';d.innerHTML=`
 <div><label for="o${n}j">Křestní jméno</label><input id="o${n}j" type="text" name="osoba${n}_jmeno" data-pole="jmeno" autocomplete="off" maxlength="60">
@@ -223,12 +222,6 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 <div><label for="o${n}k">Matka <span class="dop">(i rodné příjmení)</span></label><input id="o${n}k" type="text" name="osoba${n}_matka" data-pole="matka" autocomplete="off" maxlength="120"></div>
 <div class="cela"><label for="o${n}s">Kde a kdy se rodiče brali <span class="dop">(i přibližně)</span></label><input id="o${n}s" type="text" name="osoba${n}_snatek_rodicu" data-pole="snatek" placeholder="např. Kolín, asi 1920" autocomplete="off" maxlength="120"></div>
 </div>
-<details class="dalsi"><summary>Další údaje o této osobě <span class="dop">(nepovinné, pomůžou výzkumu)</span></summary>
-<div class="dalsi-obsah">
-<div class="chipsw"><label for="o${n}y" id="o${n}yl">Vyznání</label><select class="sr" id="o${n}y" name="osoba${n}_vyznani" data-pole="vyznani" aria-labelledby="o${n}yl">${VYZNANI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
-<div><label for="o${n}z">Povolání <span class="dop">(i otce nebo manžela)</span></label><input id="o${n}z" type="text" name="osoba${n}_povolani" data-pole="povolani" placeholder="např. švec, rolník" autocomplete="off" maxlength="80"></div>
-<div class="vim">${VIM.map(v=>`<label class="check mini"><input type="checkbox" name="osoba${n}_${v[0]}" data-pole="${v[0]}" value="ano"><span>${v[1]}</span></label>`).join('')}</div>
-</div></details>
 <button type="button" class="rm" title="Odebrat osobu" aria-label="Odebrat osobu">×</button>`;
  if(data){for(const el of d.querySelectorAll('[data-pole]')){if(data[el.dataset.pole]!=null){if(el.type==='checkbox')el.checked=!!data[el.dataset.pole];else el.value=data[el.dataset.pole];}}}
  d.querySelectorAll('.chipsw select').forEach(chipify);
@@ -263,7 +256,7 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  const ok=kotva||pres||doklad;sance();return ok;}
 // Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
 // Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
-const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],['vyznani','vyznání',()=>4],['povolani','povolání',()=>4]];
+const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],];
 const SANCE_ZONY={red:['Zatím malá šance'],yellow:['Slušná šance – ještě něco přidejte'],green:['Velká šance, že předky najdeme']};
 const ROK_ASI=/asi|kolem|okolo|cca|\?|~|př/i;
 function sanceData(){return[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={el:d};d.querySelectorAll('[data-pole]').forEach(e=>o[e.dataset.pole]=e.type==='checkbox'?e.checked:e.value.trim());return o;});}
@@ -275,7 +268,7 @@ function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0
  return s;}
 function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
 function skore(os,doklad){if(!os.length)return doklad?40:0;const b=os.map(bodyOsoby),nej=Math.max(...b),ni=b.indexOf(nej);
- const dalsi=Math.min(8,4*os.filter((o,i)=>i!==ni&&o.prijmeni).length);
+ const dalsi=Math.min(20,os.reduce((a,o,i)=>a+(i===ni?0:maStart([o],false)?10:o.prijmeni?4:0),0));
  let s=nej+dalsi+(doklad?40:0);if(!maStart(os,doklad))s=Math.min(s,30);return Math.min(95,s);}
 function sance(){const box=document.getElementById('sance');if(!box)return;const os=sanceData(),doklad=soubory.length>0,ted=skore(os,doklad);
  const bi=os.length?os.map(bodyOsoby).reduce((a,v,i,arr)=>v>arr[a]?i:a,0):-1,o=os[bi];
@@ -285,6 +278,7 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
   for(const[k,t,b]of SANCE_POLE){if(!b(mlada))continue;if(k==='jmeno'&&o.jmeno_nezname)continue;
    let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else{if(o[k])continue;zmena[k]='x';}
    const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':t,z});}}
+ if(o){const z=skore(os.concat([{jmeno:'x',prijmeni:'x',rok:'1880',misto:'x'}]),doklad)-ted;if(z>0)navrhy.push({k:'_osoba',t:'další předek (třeba jeho rodiče)',z});}
  navrhy.sort((a,b)=>b.z-a.z);
  const nej=navrhy[0];let zona=ted<35?'red':ted<60?'yellow':'green';
  box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
@@ -293,7 +287,7 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  document.getElementById('sanceOdhad').value=ted;
  const kdo=os.length>1&&o?(' u osoby '+[o.jmeno,o.prijmeni].filter(Boolean).join(' ')).trimEnd():'';
  let tip;
- if(nej)tip=`Nejvíc vám teď pomůže${kdo}: ${nej.t} (+${nej.z} %). Světlejší část pruhu ukazuje, kam se posunete.`;
+ if(nej)tip=nej.k==='_osoba'?`Nejvíc vám teď pomůže přidat dalšího předka s rokem a obcí narození – třeba rodiče nebo předka z druhé strany rodiny (+${nej.z} %).`:`Nejvíc vám teď pomůže${kdo}: ${nej.t} (+${nej.z} %). Světlejší část pruhu ukazuje, kam se posunete.`;
  else if(!maStart(os,doklad)){const r=o?rokZ(o.rok):{};
   tip=r.rok>HRANICE_RODICE?'Narození po roce '+HRANICE_RODICE+' v matrikách nenajdeme. Přidejte rodiče této osoby jako další osobu (jméno, rok a obec narození).'
   :r.rok>HRANICE?'U narození po roce '+HRANICE+' hledáme přes rodiče: doplňte oba rodiče a obec nebo místo jejich sňatku.'
@@ -301,13 +295,14 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  else if(!doklad)tip='Výborně, máte vyplněno vše podstatné. Fotka rodného či oddacího listu nebo hrobu s daty by šanci ještě zvýšila.';
  else tip='Máme vše, co potřebujeme. Děkujeme!';
  document.getElementById('sanceTip').textContent=tip;
- const ul=document.getElementById('sanceCo');ul.innerHTML='';
+ const ul=document.getElementById('sanceCo'),podpis=JSON.stringify([bi,doklad,ted,navrhy.slice(0,4)]);
+ if(ul.dataset.podpis!==podpis){ul.dataset.podpis=podpis;ul.innerHTML='';
  navrhy.slice(0,4).forEach((p,i)=>{const li=document.createElement('li'),b=document.createElement('button');b.type='button';if(!i)b.className='top';
   b.textContent=p.t.charAt(0).toUpperCase()+p.t.slice(1)+' ';const z=document.createElement('span');z.textContent='+'+p.z+' %';b.appendChild(z);
-  b.onclick=()=>sanceFokus(o.el,p.k);li.appendChild(b);ul.appendChild(li);});
+  b.onclick=()=>p.k==='_osoba'?document.getElementById('pridat').click():sanceFokus(o.el,p.k);li.appendChild(b);ul.appendChild(li);});
  if(!doklad){const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='doklad';b.textContent='Fotka dokladu nebo hrobu ';
   const z=document.createElement('span');z.textContent='+'+(skore(os,true)-ted)+' %';b.appendChild(z);
-  b.onclick=()=>{const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}
+  b.onclick=()=>{const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}}
  if(box.dataset.posl!==zona){if(box.dataset.posl)udal('formular:sance',{zona,odhad:ted});box.dataset.posl=zona;}}
 function sanceFokus(d,k){const el=d.querySelector(`[data-pole=${k}]`);if(!el)return;const det=el.closest('details');if(det)det.open=true;
  const cil=el.classList.contains('sr')?el.nextElementSibling.querySelector('.chip'):el;cil.scrollIntoView({behavior:'smooth',block:'center'});cil.focus({preventScroll:true});}
@@ -415,6 +410,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121c" defer></script>
+<script src="mereni.js?v=20261121d" defer></script>
 </body>
 </html>
