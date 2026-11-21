@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261117b">
+<link rel="stylesheet" href="styl.css?v=20261121">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -291,7 +291,7 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
  const nej=navrhy[0];let zona=ted<35?'red':ted<65?'yellow':'green';
  box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
  const pr=document.getElementById('sancePruh');pr.setAttribute('aria-valuenow',ted);pr.setAttribute('aria-valuetext',SANCE_ZONY[zona][0]);
- pr.querySelector('.ted').style.width=ted+'%';pr.querySelector('.nab').style.width=(nej?Math.min(95,ted+nej.z):ted)+'%';
+ pr.querySelector('.ted').style.width=Math.max(4,ted)+'%';pr.querySelector('.nab').style.width=(nej?Math.min(95,ted+nej.z):ted)+'%';
  document.getElementById('sanceOdhad').value=ted;
  const kdo=os.length>1&&o?(' u osoby '+[o.jmeno,o.prijmeni].filter(Boolean).join(' ')).trimEnd():'';
  let tip;
@@ -418,6 +418,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261117b" defer></script>
+<script src="mereni.js?v=20261121" defer></script>
 </body>
 </html>
