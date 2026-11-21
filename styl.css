@@ -158,3 +158,31 @@ input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg 
 .btn.dal span{margin-left:6px}
 #odeslat{display:block;width:100%}
 .mikro{font-size:13px;color:var(--muted);margin:8px 0 0;text-align:center;line-height:1.4}
+
+/* Ukazatel šance */
+.sance{--z:#c0392b;--zi:#9b2c22;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:6px 0 12px;display:grid;gap:8px}
+.sance[data-zona=yellow]{--z:#e0a526;--zi:#7a5200}
+.sance[data-zona=green]{--z:var(--acc2);--zi:var(--acc2)}
+@media(min-width:700px){.sance{position:sticky;top:8px;z-index:5;box-shadow:0 6px 18px rgba(43,38,34,.08)}}
+.sance-hl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sance-hl .tecka{width:12px;height:12px;border-radius:50%;background:var(--z);transition:background .4s}
+.sance-hl b{font-size:16px;color:var(--zi)}
+.sance-hl .pozn{margin-left:auto;font-size:12px;color:var(--muted)}
+.sance-pruh{position:relative;height:14px;border-radius:7px;background:#ece5d9;overflow:hidden}
+.sance-pruh i{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:7px;background:var(--z);transition:width .4s ease,background .4s ease}
+.sance-pruh .nab{opacity:.3}
+.sance-pruh::before,.sance-pruh::after{content:"";position:absolute;top:0;bottom:0;width:2px;background:var(--bg);z-index:1}
+.sance-pruh::before{left:35%}.sance-pruh::after{left:65%}
+.sance-osa{display:grid;grid-template-columns:35fr 30fr 35fr;font-size:12px;color:var(--muted)}
+.sance-osa span:last-child{text-align:right}
+.sance-tip{margin:0;font-size:14px;line-height:1.45}
+.sance-co{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.sance-co:empty{display:none}
+.sance-co button{min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
+.sance-co button span{font-weight:600;color:var(--muted)}
+.sance-co button.top{border-color:var(--acc);background:#f6e9e2}
+.sance-co button.top span{color:var(--acc)}
+.sance-co button.doklad{border-style:dashed}
+.sance-co button:hover{border-color:var(--acc)}
+@media(max-width:560px){.sance-hl .pozn{margin-left:0;flex-basis:100%}.sance-osa{font-size:11px}}
+@media(prefers-reduced-motion:reduce){.sance-pruh i,.sance-hl .tecka{transition:none}}

@@ -147,6 +147,9 @@
     document.addEventListener("formular:hotovo", function (e) {
       udalost("formular_krok_" + e.detail.n + "_hotovo", { krok: e.detail.n, sekund: sek(krokCas) });
     });
+    document.addEventListener("formular:sance", function (e) {
+      udalost("formular_sance", { zona: e.detail.zona, odhad: e.detail.odhad });
+    });
     document.addEventListener("formular:krok", function (e) {
       udalost("formular_krok_" + e.detail.n, { krok: e.detail.n });
       krokCas = Date.now();

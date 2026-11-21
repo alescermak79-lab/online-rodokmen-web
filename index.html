@@ -145,6 +145,14 @@
     <fieldset>
       <legend>Co o rodině víte</legend>
       <p class="hint">Uveďte osoby, od kterých máme hledat: typicky prarodiče nebo praprarodiče. Stačí jedna, další přidáte tlačítkem. <b>Abychom měli kde začít, potřebujeme jedno z toho: fotku dokladu výše, nebo osobu narozenou do roku 1910 s rokem i obcí narození, nebo u mladší osoby jména jejích rodičů a obec</b>. Knihy narozených po roce 1910 většinou ještě nejsou na internetu.</p>
+      <div class="sance" id="sance" data-zona="red">
+        <div class="sance-hl"><span class="tecka" aria-hidden="true"></span><b id="sanceZona">Zatím malá šance</b><span class="pozn">orientační odhad šance, že předky najdeme</span></div>
+        <div class="sance-pruh" role="meter" aria-labelledby="sanceZona" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="sancePruh"><i class="nab"></i><i class="ted"></i></div>
+        <div class="sance-osa" aria-hidden="true"><span>málo údajů</span><span>slušná šance</span><span>velká šance</span></div>
+        <p class="sance-tip" id="sanceTip" aria-live="polite"></p>
+        <ul class="sance-co" id="sanceCo" aria-label="Co vám přidá nejvíc"></ul>
+        <input type="hidden" name="sance_odhad" id="sanceOdhad">
+      </div>
       <div id="osoby"></div>
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
       <button type="button" class="btn sec" id="pridat">+ Přidat další osobu</button>
@@ -254,7 +262,57 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  else if(kotva){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Máme kde začít.</b> Čím víc osob, roků a obcí doplníte, tím hlouběji se dostaneme.';}
  else if(pres){box.classList.add('ok');ik.textContent='✓';tx.innerHTML='<b>Zkusíme začít přes sňatek rodičů.</b> Jistější je přiložit rodný či oddací list, nebo přidat předka narozeného do roku 1910.';}
  else{box.classList.add('ne');ik.textContent='!';tx.innerHTML=mladi?`<b>Zatím nemáme kde začít:</b> knihy narozených po roce ${HRANICE} většinou nejsou na internetu. Doplňte u osoby jména obou rodičů a obec, přidejte předka narozeného do roku ${HRANICE}, nebo přiložte rodný či oddací list.`:`<b>Zatím nemáme kde začít:</b> přiložte rodný či oddací list, nebo u aspoň jedné osoby doplňte rok a obec narození.`;}
- return kotva||pres||doklad;}
+ const ok=kotva||pres||doklad;sance();return ok;}
+// Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
+// Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
+const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['oblast','odkud pochází',()=>6],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],['vyznani','vyznání',()=>4],['povolani','povolání',()=>4]];
+const SANCE_ZONY={red:['Zatím malá šance'],yellow:['Slušná šance – ještě něco přidejte'],green:['Velká šance, že předky najdeme']};
+const ROK_ASI=/asi|kolem|okolo|cca|\?|~|př/i;
+function sanceData(){return[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={el:d};d.querySelectorAll('[data-pole]').forEach(e=>o[e.dataset.pole]=e.type==='checkbox'?e.checked:e.value.trim());return o;});}
+function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0;
+ for(const[k,,b]of SANCE_POLE){const max=b(mlada);if(!max)continue;
+  if(k==='rok'){if(r.rok)s+=ROK_ASI.test(o.rok)?12:18;}else if(k==='jmeno'){if(o.jmeno&&!o.jmeno_nezname)s+=max;}else if(o[k])s+=max;}
+ if(r.rok&&r.rok>HRANICE_RODICE)s=Math.min(s,15);
+ else if(mlada){if(!o.otec&&!o.matka)s=Math.min(s,30);else if(!(o.otec&&o.matka&&(o.misto||o.snatek)))s=Math.min(s,60);else s=Math.min(s,80);}
+ return s;}
+function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
+function skore(os,doklad){if(!os.length)return doklad?40:0;const b=os.map(bodyOsoby),nej=Math.max(...b),ni=b.indexOf(nej);
+ const dalsi=Math.min(8,4*os.filter((o,i)=>i!==ni&&o.prijmeni).length);
+ let s=nej+dalsi+(doklad?40:0);if(!maStart(os,doklad))s=Math.min(s,30);return Math.min(95,s);}
+function sance(){const box=document.getElementById('sance');if(!box)return;const os=sanceData(),doklad=soubory.length>0,ted=skore(os,doklad);
+ const bi=os.length?os.map(bodyOsoby).reduce((a,v,i,arr)=>v>arr[a]?i:a,0):-1,o=os[bi];
+ const sim=(zmena)=>{const kopie=os.map((x,i)=>i===bi?Object.assign({},x,zmena):x);return skore(kopie,doklad)-ted;};
+ const navrhy=[];
+ if(o){const mlada=(rokZ(o.rok).rok||0)>HRANICE;
+  for(const[k,t,b]of SANCE_POLE){if(!b(mlada))continue;if(k==='jmeno'&&o.jmeno_nezname)continue;
+   let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else{if(o[k])continue;zmena[k]='x';}
+   const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':t,z});}}
+ navrhy.sort((a,b)=>b.z-a.z);
+ const nej=navrhy[0];let zona=ted<35?'red':ted<65?'yellow':'green';
+ box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
+ const pr=document.getElementById('sancePruh');pr.setAttribute('aria-valuenow',ted);pr.setAttribute('aria-valuetext',SANCE_ZONY[zona][0]);
+ pr.querySelector('.ted').style.width=ted+'%';pr.querySelector('.nab').style.width=(nej?Math.min(95,ted+nej.z):ted)+'%';
+ document.getElementById('sanceOdhad').value=ted;
+ const kdo=os.length>1&&o?(' u osoby '+[o.jmeno,o.prijmeni].filter(Boolean).join(' ')).trimEnd():'';
+ let tip;
+ if(nej)tip=`Nejvíc vám teď pomůže${kdo}: ${nej.t} (+${nej.z} %). Světlejší část pruhu ukazuje, kam se posunete.`;
+ else if(!maStart(os,doklad)){const r=o?rokZ(o.rok):{};
+  tip=r.rok>HRANICE_RODICE?'Narození po roce '+HRANICE_RODICE+' v matrikách nenajdeme. Přidejte rodiče této osoby jako další osobu (jméno, rok a obec narození).'
+  :r.rok>HRANICE?'U narození po roce '+HRANICE+' hledáme přes rodiče: doplňte oba rodiče a obec nebo místo jejich sňatku.'
+  :'Abychom měli kde začít, doplňte rok a obec narození, nebo přiložte rodný či oddací list.';}
+ else if(!doklad)tip='Výborně, máte vyplněno vše podstatné. Fotka rodného či oddacího listu by šanci ještě zvýšila.';
+ else tip='Máme vše, co potřebujeme. Děkujeme!';
+ document.getElementById('sanceTip').textContent=tip;
+ const ul=document.getElementById('sanceCo');ul.innerHTML='';
+ navrhy.slice(0,4).forEach((p,i)=>{const li=document.createElement('li'),b=document.createElement('button');b.type='button';if(!i)b.className='top';
+  b.textContent=p.t.charAt(0).toUpperCase()+p.t.slice(1)+' ';const z=document.createElement('span');z.textContent='+'+p.z+' %';b.appendChild(z);
+  b.onclick=()=>sanceFokus(o.el,p.k);li.appendChild(b);ul.appendChild(li);});
+ if(!doklad){const li=document.createElement('li'),b=document.createElement('button');b.type='button';b.className='doklad';b.textContent='Fotka dokladu ';
+  const z=document.createElement('span');z.textContent='+'+(skore(os,true)-ted)+' %';b.appendChild(z);
+  b.onclick=()=>{const v=document.querySelector('label.vyber');v.scrollIntoView({behavior:'smooth',block:'center'});v.focus&&document.getElementById('fotky').focus({preventScroll:true});};li.appendChild(b);ul.appendChild(li);}
+ if(box.dataset.posl!==zona){if(box.dataset.posl)udal('formular:sance',{zona,odhad:ted});box.dataset.posl=zona;}}
+function sanceFokus(d,k){const el=d.querySelector(`[data-pole=${k}]`);if(!el)return;const det=el.closest('details');if(det)det.open=true;
+ const cil=el.classList.contains('sr')?el.nextElementSibling.querySelector('.chip'):el;cil.scrollIntoView({behavior:'smooth',block:'center'});cil.focus({preventScroll:true});}
 document.getElementById('pridat').onclick=()=>{pridej(VZTAHY[4]);uloz();start();document.querySelector('#osoby .osoba:last-child input').focus();};
 
 // Rozepsaný formulář si prohlížeč pamatuje (localStorage, jen v tomto zařízení). Fotky ani souhlasy se neukládají.
