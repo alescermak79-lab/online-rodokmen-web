@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121e">
+<link rel="stylesheet" href="styl.css?v=20261121f">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -283,7 +283,8 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
   for(const[k,t,b]of SANCE_POLE){if(!b(mlada))continue;if(k==='jmeno'&&o.jmeno_nezname)continue;
    let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else if(k==='misto'&&PRAHA_HOLA.test(o.misto)){zmena.misto='Praha – x';}else{if(o[k])continue;zmena[k]='x';}
    const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':k==='misto'&&o.misto?'čtvrť Prahy (např. Praha – Břevnov)':t,z});}}
- if(o){const z=skore(os.concat([{jmeno:'x',prijmeni:'x',rok:'1880',misto:'x'}]),doklad)-ted;if(z>0)navrhy.push({k:'_osoba',t:'další předek (třeba jeho rodiče)',z});}
+ // Dalšího předka nabízíme, až je první osoba použitelná (nebo když jinak nejde začít: mladá osoba, cizina).
+ if(o&&(maStart(os,doklad)||ciziOsoba(o)||(rokZ(o.rok).rok||0)>HRANICE)){const z=skore(os.concat([{jmeno:'x',prijmeni:'x',rok:'1880',misto:'x'}]),doklad)-ted;if(z>0)navrhy.push({k:'_osoba',t:'další předek (třeba jeho rodiče)',z});}
  navrhy.sort((a,b)=>b.z-a.z);
  const nej=navrhy[0];let zona=ted<35?'red':ted<70?'yellow':'green';
  box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
@@ -416,6 +417,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121e" defer></script>
+<script src="mereni.js?v=20261121f" defer></script>
 </body>
 </html>
