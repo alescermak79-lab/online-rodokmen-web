@@ -52,7 +52,7 @@ section:not(.alt) .step{background:var(--card)}
 .faq summary{cursor:pointer;font-weight:600}
 .faq p{color:var(--muted);margin:8px 0 0}
 form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;margin-top:16px}
-fieldset{border:none;padding:0;margin:0 0 22px}
+fieldset{border:none;padding:0;margin:0 0 22px;min-width:0}
 legend{font-family:Fraunces,Georgia,serif;font-size:20px;margin-bottom:8px}
 label{display:block;font-size:14px;color:var(--muted);margin:10px 0 4px}
 input[type=text],input[type=email],input[type=tel],textarea,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;background:#fff}
@@ -185,3 +185,6 @@ input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg 
 .sance-co button:hover{border-color:var(--acc)}
 @media(max-width:560px){.sance-hl .pozn{margin-left:0;flex-basis:100%}.sance-osa{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.sance-pruh i,.sance-hl .tecka{transition:none}}
+.files .hint{margin:8px auto 0;max-width:36em}
+.files .hint.mini{font-size:12px;margin-top:4px}
+legend .tag{font-family:Inter,system-ui,sans-serif;vertical-align:middle;margin-left:6px}

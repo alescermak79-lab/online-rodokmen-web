@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121h">
+<link rel="stylesheet" href="styl.css?v=20261121i">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -134,11 +134,12 @@
     <ol class="postup" id="postup" aria-label="Postup vyplnění"><li class="akt" data-k="1"><b>1</b> Co o rodině víte</li><li data-k="2"><b>2</b> Kam poslat náhled</li></ol>
     <div class="krok" id="krok1" data-krok="1">
     <fieldset>
-      <legend>Fotka dokladu nebo hrobu – nejjistější cesta</legend>
+      <legend>Fotka dokladu nebo hrobu <span class="tag">nejjistější cesta</span></legend>
       <div class="files">
         <label class="vyber" for="fotky">Vybrat fotky nebo PDF</label>
         <input type="file" id="fotky" accept="image/*,.pdf,application/pdf" multiple>
-        <p class="hint"><b>Jeden rodný, křestní nebo oddací list prarodičů nahradí většinu polí níže</b> – jsou na něm rodiče i jejich původ. <b>Pomůže i fotka hrobu, na které jsou čitelná jména a data narození</b>, nebo úmrtní oznámení (JPG, PNG, HEIC, PDF; celkem do 10 MB). Fotky před odesláním automaticky zmenšíme. Rodná čísla prosím zakryjte.</p>
+        <p class="hint"><b>Rodný, křestní nebo oddací list nahradí většinu polí níže.</b> Pomůže i fotka hrobu se jmény a daty nebo úmrtní oznámení.</p>
+        <p class="hint mini">JPG, PNG, HEIC nebo PDF do 10&nbsp;MB · rodná&nbsp;čísla&nbsp;zakryjte</p>
         <div id="seznamFotek"></div>
       </div>
     </fieldset>
@@ -418,6 +419,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121h" defer></script>
+<script src="mereni.js?v=20261121i" defer></script>
 </body>
 </html>
