@@ -200,5 +200,7 @@ legend .tag{font-family:Inter,system-ui,sans-serif;vertical-align:middle;margin-
 .poukaz-roz summary{min-height:44px;display:flex;align-items:center}
 .obnoveno button{min-height:40px}
 input[type=text],input[type=email],select,textarea{border-color:#a99f93}
-@media(min-width:700px){#osoby :is(input,select,button,summary),#start{scroll-margin-top:210px}}
+@media(min-width:700px){#osoby :is(input,select,button,summary),#start{scroll-margin-top:210px}html:has(#osoby :focus){scroll-padding-top:210px}}
 .doc table{display:block;overflow-x:auto}
+.cesty{margin:6px 0 10px;padding-left:22px;font-size:14px;color:var(--muted)}.cesty li{margin:3px 0}.cesty b{color:var(--ink)}
+@media(max-width:600px){.cookies{left:8px;right:8px;bottom:8px;padding:10px 12px;gap:8px;font-size:12.5px;line-height:1.4}.cookies .btn{padding:0 12px;min-height:44px}}
