@@ -161,7 +161,7 @@ input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg 
 
 /* Ukazatel šance */
 .sance{--z:#c0392b;--zi:#9b2c22;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:6px 0 12px;display:grid;gap:8px}
-.sance[data-zona=yellow]{--z:#e0a526;--zi:#7a5200}
+.sance[data-zona=yellow]{--z:#a87410;--zi:#7a5200}
 .sance[data-zona=green]{--z:var(--acc2);--zi:var(--acc2)}
 @media(min-width:700px){.sance{position:sticky;top:8px;z-index:5;box-shadow:0 6px 18px rgba(43,38,34,.08)}}
 .sance-hl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -188,3 +188,17 @@ input.dobre{border-color:#7fb89c;background:#fff url("data:image/svg+xml,%3Csvg 
 .files .hint{margin:8px auto 0;max-width:36em}
 .files .hint.mini{font-size:12px;margin-top:4px}
 legend .tag{font-family:Inter,system-ui,sans-serif;vertical-align:middle;margin-left:6px}
+/* QA 21. 11.: dotykové plochy, viditelnost fokusu pod plovoucím ukazatelem, přílohy */
+.files label.vyber{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border-radius:999px;background:var(--card);border:1px solid #8f857b}
+.files:focus-within label.vyber{outline:2px solid var(--acc2);outline-offset:2px}
+.files input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.files{position:relative}
+.zrus-fotky{margin-top:6px;min-height:36px;background:none;border:1px solid var(--line);border-radius:999px;padding:0 12px;font:inherit;font-size:13px;cursor:pointer}
+.osoba .rm{width:44px;height:44px;top:0;right:0}
+.sance-co button{min-height:44px}
+.zpet{min-height:44px}
+.poukaz-roz summary{min-height:44px;display:flex;align-items:center}
+.obnoveno button{min-height:40px}
+input[type=text],input[type=email],select,textarea{border-color:#a99f93}
+@media(min-width:700px){#osoby :is(input,select,button,summary),#start{scroll-margin-top:210px}}
+.doc table{display:block;overflow-x:auto}

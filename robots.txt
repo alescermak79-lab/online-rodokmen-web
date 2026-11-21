@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Disallow: /test/
+Sitemap: https://online-rodokmen.cz/sitemap.xml
