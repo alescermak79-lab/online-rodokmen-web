@@ -204,3 +204,7 @@ input[type=text],input[type=email],select,textarea{border-color:#a99f93}
 .doc table{display:block;overflow-x:auto}
 .cesty{margin:6px 0 10px;padding-left:22px;font-size:14px;color:var(--muted)}.cesty li{margin:3px 0}.cesty b{color:var(--ink)}
 @media(max-width:600px){.cookies{left:8px;right:8px;bottom:8px;padding:10px 12px;gap:8px;font-size:12.5px;line-height:1.4}.cookies .btn{padding:0 12px;min-height:44px}}
+/* Panely sekcí: text nesmí lepit na okraj podkladu */
+section.alt{padding:40px 32px;border:1px solid var(--line);border-radius:18px;margin:12px 0}
+@media(max-width:560px){section.alt{padding:28px 16px;border-radius:14px}}
+.faq details:last-child{border-bottom:none}
