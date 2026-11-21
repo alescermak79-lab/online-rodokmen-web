@@ -7,7 +7,7 @@
 <meta name="description" content="Pošlete, co o své rodině víte, a my dohledáme vaše předky v digitalizovaných matrikách archivů ČR a SR. Nejdřív náhled zdarma, platíte jen za doložené předky.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121">
+<link rel="stylesheet" href="styl.css?v=20261121b">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -207,7 +207,6 @@
 
 <script>
 const VZTAHY=["dědeček (z otcovy strany)","babička (z otcovy strany)","dědeček (z matčiny strany)","babička (z matčiny strany)","pradědeček","prababička","otec","matka","jiný příbuzný"];
-const OBLASTI=[["","— vyberte —"],["cechy","Čechy"],["morava","Morava"],["slezsko","Slezsko"],["slovensko","Slovensko"],["jinde","Jinde / nevím"]];
 const VYZNANI=[["","Nevím"],["katolicke","Římskokatolické"],["evangelicke","Evangelické"],["zidovske","Židovské"],["jine","Jiné"]];
 const VIM=[["vim_pohranici","Rodina pocházela z pohraničí nebo mluvila německy"],["vim_prijmeni_jinak","Příjmení se psalo nebo píše jinak (německy, slovensky…)"],["vim_stehovani","Rodina se stěhovala (za prací, po válce…)"],["vim_vice_manzelstvi","Osoba měla víc manželství"],["vim_dalsi_doklady","Mám i další doklady (úmrtní oznámení, fotky náhrobků…)"]];
 let n=0,soubory=[];
@@ -217,7 +216,6 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 <div><label for="o${n}p">Příjmení <span class="dop">(u žen i rodné)</span></label><input id="o${n}p" type="text" name="osoba${n}_prijmeni" data-pole="prijmeni" required autocomplete="off" maxlength="60"></div>
 <div><label for="o${n}v">Vztah k vám</label><select id="o${n}v" name="osoba${n}_vztah" data-pole="vztah">${VZTAHY.map(v=>`<option${v===vztah?' selected':''}>${v}</option>`).join('')}</select></div>
 <div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20"></div>
-<div class="cela chipsw"><label for="o${n}a" id="o${n}al">Odkud pochází</label><select class="sr" id="o${n}a" name="osoba${n}_oblast" data-pole="oblast" aria-labelledby="o${n}al">${OBLASTI.map(v=>`<option value="${v[0]}">${v[1]}</option>`).join('')}</select></div>
 <div><label for="o${n}m">Obec narození a okres <span class="dop">(nebo sňatku)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
 <div class="rodice" hidden>
 <p class="rodtx">Narození po roce 1910 většinou není v matrikách na internetu. Uveďte prosím rodiče této osoby – hledat budeme přes jejich sňatek.</p>
@@ -265,7 +263,7 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  const ok=kotva||pres||doklad;sance();return ok;}
 // Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
 // Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
-const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['oblast','odkud pochází',()=>6],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],['vyznani','vyznání',()=>4],['povolani','povolání',()=>4]];
+const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:6],['matka','jméno matky',m=>m?10:6],['snatek','kde a kdy se rodiče brali',m=>m?15:0],['vyznani','vyznání',()=>4],['povolani','povolání',()=>4]];
 const SANCE_ZONY={red:['Zatím malá šance'],yellow:['Slušná šance – ještě něco přidejte'],green:['Velká šance, že předky najdeme']};
 const ROK_ASI=/asi|kolem|okolo|cca|\?|~|př/i;
 function sanceData(){return[...document.querySelectorAll('#osoby .osoba')].map(d=>{const o={el:d};d.querySelectorAll('[data-pole]').forEach(e=>o[e.dataset.pole]=e.type==='checkbox'?e.checked:e.value.trim());return o;});}
@@ -288,7 +286,7 @@ function sance(){const box=document.getElementById('sance');if(!box)return;const
    let zmena={};if(k==='rok'){const r=rokZ(o.rok);if(r.rok&&!ROK_ASI.test(o.rok))continue;zmena.rok=String(r.rok||1900);}else{if(o[k])continue;zmena[k]='x';}
    const z=sim(zmena);if(z>0)navrhy.push({k,t:k==='rok'&&o.rok?'přesný rok narození':t,z});}}
  navrhy.sort((a,b)=>b.z-a.z);
- const nej=navrhy[0];let zona=ted<35?'red':ted<65?'yellow':'green';
+ const nej=navrhy[0];let zona=ted<35?'red':ted<60?'yellow':'green';
  box.dataset.zona=zona;document.getElementById('sanceZona').textContent=SANCE_ZONY[zona][0];
  const pr=document.getElementById('sancePruh');pr.setAttribute('aria-valuenow',ted);pr.setAttribute('aria-valuetext',SANCE_ZONY[zona][0]);
  pr.querySelector('.ted').style.width=Math.max(4,ted)+'%';pr.querySelector('.nab').style.width=(nej?Math.min(95,ted+nej.z):ted)+'%';
@@ -350,7 +348,7 @@ function jdi(k){K1.hidden=k!==1;K2.hidden=k!==2;document.querySelectorAll('#post
 function chybaOsoby(d,el,msg,pole){let c=d.querySelector('.chyba2');if(!c){c=document.createElement('p');c.className='chyba chyba2';c.setAttribute('role','alert');d.appendChild(c);}
  c.textContent=msg;const smaz=()=>{c.remove();};d.addEventListener('input',smaz,{once:true});d.addEventListener('change',smaz,{once:true});
  el.scrollIntoView({behavior:'smooth',block:'center'});el.focus({preventScroll:true});udal('formular:chyba',{krok:1,pole});return false;}
-// Co výzkum nutně potřebuje u první osoby: příjmení, křestní jméno (nebo „neznám“), rok, oblast a obec s okresem; s dokladem stačí jméno.
+// Co výzkum nutně potřebuje u první osoby: příjmení, křestní jméno (nebo „neznám“), rok a obec s okresem; s dokladem stačí jméno.
 function krok1ok(){for(const el of K1.querySelectorAll('input,select,textarea'))el.setCustomValidity&&el.setCustomValidity('');
  for(const el of K1.querySelectorAll('input[required]')){if(!el.checkValidity()){el.reportValidity();return false;}}
  const osoby=[...document.querySelectorAll('#osoby .osoba')];if(!osoby.length)return false;
@@ -361,7 +359,6 @@ function krok1ok(){for(const el of K1.querySelectorAll('input,select,textarea'))
   if(rokZ(g('rok').value).chyba)return chybaOsoby(d,g('rok'),'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).','osoba_rok');
   if(i===0&&!doklad){
    if(rokZ(g('rok').value).prazdny)return chybaOsoby(d,g('rok'),'Doplňte rok narození, klidně přibližný – podle něj poznáme, ve které knize hledat.','osoba_rok');
-   if(!g('oblast').value)return chybaOsoby(d,d.querySelector('.chips button'),'Vyberte, odkud osoba pochází (Čechy, Morava, Slezsko, Slovensko).','osoba_oblast');
    if(g('misto').value.trim().length<2)return chybaOsoby(d,g('misto'),'Doplňte obec narození (nebo sňatku) a okres – bez obce nevíme, kterou matriku otevřít.','osoba_misto');}}
  if(!start()){const b=document.getElementById('start');b.scrollIntoView({behavior:'smooth',block:'center'});b.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:400});udal('formular:chyba',{krok:1,pole:'start'});return false;}
  return true;}
@@ -418,6 +415,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Zadat podklady zdarma</a>
-<script src="mereni.js?v=20261121" defer></script>
+<script src="mereni.js?v=20261121b" defer></script>
 </body>
 </html>
