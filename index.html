@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styl.css?v=20261121m">
+<link rel="stylesheet" href="styl.css?v=20261124a">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -126,7 +126,8 @@
   <h2>Získat náhled zdarma</h2>
   <p>Po odeslání dostanete potvrzení s číslem zakázky. Náhled posíláme do 5 pracovních dnů.</p>
   <form id="f" action="https://formsubmit.co/c57251e2c1cb40dd3d4b70d83e8e1789" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="_subject" value="Nová zakázka">
+    <input type="hidden" name="_subject" id="predmet" value="Nová zakázka">
+    <input type="hidden" name="rezim" id="rezim" value="objednavka">
     <input type="hidden" name="_template" value="table">
     <input type="hidden" name="_captcha" value="false">
     <input type="hidden" name="_next" value="https://online-rodokmen.cz/dekujeme.html">
@@ -162,6 +163,7 @@
       </div>
       <div id="osoby"></div>
       <div class="start" id="start" aria-live="polite"><span class="ik">?</span><span class="tx">Zatím nemáme kde začít: přiložte doklad, nebo doplňte u některé osoby rok a obec narození.</span></div>
+      <div class="unik" id="unik" hidden><span>Víc toho nevíte?</span> <button type="button" class="btn sec" id="poradit">Poraďte mi zdarma, jak údaje zjistit</button></div>
       <button type="button" class="btn sec" id="pridat">+ Přidat dalšího předka a zvýšit šanci</button>
       <p class="hint">Každý další předek s rokem a obcí narození je další cesta, kudy můžeme v matrikách začít – třeba rodiče výše uvedené osoby nebo předek z druhé strany rodiny.</p>
     </fieldset>
@@ -170,6 +172,7 @@
     </div>
     <div class="krok" id="krok2" data-krok="2" hidden>
     <button type="button" class="zpet" id="zpet">← Zpět k údajům o rodině</button>
+    <p class="dotaz-info" id="dotazInfo" hidden>Pošlete nám kontakt a to, co víte. Do 2 pracovních dnů vám napíšeme, kde konkrétně chybějící údaje získat (matriční úřad, archiv, hřbitov) – zdarma a nezávazně.</p>
     <fieldset>
       <legend>Kam poslat náhled</legend>
       <label for="jmeno">Jméno a příjmení</label><input id="jmeno" type="text" name="jmeno" required autocomplete="name" maxlength="120">
@@ -221,7 +224,8 @@ function pridej(vztah,data){n++;const d=document.createElement('div');d.classNam
 <label class="check mini"><input type="checkbox" name="osoba${n}_jmeno_nezname" data-pole="jmeno_nezname" value="ano"><span>Křestní jméno neznám</span></label></div>
 <div><label for="o${n}p">Příjmení <span class="dop">(u žen i rodné)</span></label><input id="o${n}p" type="text" name="osoba${n}_prijmeni" data-pole="prijmeni" required autocomplete="off" maxlength="60"></div>
 <div><label for="o${n}v">Vztah k vám</label><select id="o${n}v" name="osoba${n}_vztah" data-pole="vztah">${VZTAHY.map(v=>`<option${v===vztah?' selected':''}>${v}</option>`).join('')}</select></div>
-<div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20"></div>
+<div><label for="o${n}r">Rok narození <span class="dop">(i přibližně)</span></label><input id="o${n}r" type="text" name="osoba${n}_rok" data-pole="rok" placeholder="1905, asi 1905" inputmode="numeric" maxlength="20">
+<label class="check mini"><input type="checkbox" name="osoba${n}_rok_nevim" data-pole="rok_nevim" value="ano"><span>Rok nevím</span></label></div>
 <div><label for="o${n}m">Obec narození <span class="dop">(nebo sňatku; okres, pokud víte)</span></label><input id="o${n}m" type="text" name="osoba${n}_misto" data-pole="misto" placeholder="obec, okres; v Praze čtvrť" maxlength="80"></div>
 <div class="rodice" hidden>
 <p class="rodtx">Narození po roce 1910 většinou není v matrikách na internetu. Uveďte prosím rodiče této osoby – hledat budeme přes jejich sňatek.</p>
@@ -242,6 +246,8 @@ function chipify(sel){const w=document.createElement('div');w.className='chips';
 
 // Rok: z volného textu („asi 1905“, „1905?“, „1. 2. 1930“) vytáhneme čtyřmístný letopočet; jiný neprázdný text je chyba.
 const ROK_MAX=new Date().getFullYear(),HRANICE=1910,HRANICE_RODICE=1930;
+// Pradědeček/prababička dnešních dospělých se skoro vždy narodili před rokem 1910 – s obcí to stačí i bez roku.
+const PRA=/^pra/i;function bezRokuOk(o){return !!o.rok_nevim&&!rokZ(o.rok).rok&&PRA.test(o.vztah||'');}
 function rokZ(s){s=(s||'').trim();if(!s)return{prazdny:true};const m=s.match(/(1[5-9]\d\d|20\d\d)/);if(!m)return{chyba:true};const r=+m[1];if(r>ROK_MAX)return{chyba:true,budouci:true};return{rok:r};}
 // Máme kde začít? (a) přiložený doklad, (b) osoba narozená do roku 1910 s rokem i obcí,
 // (c) osoba narozená 1911–1930 se jmény obou rodičů a obcí (narození nebo sňatku rodičů) – hledá se přes sňatek rodičů.
@@ -255,6 +261,7 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
   if(txt){if(!ch){ch=document.createElement('p');ch.className='chyba';d.appendChild(ch);}ch.textContent=txt;}else if(ch)ch.remove();
   if(CIZINA.test(m)||CIZINA.test(v('snatek')));
   else if(r.rok&&r.rok<=HRANICE&&m)kotva=true;
+  else if(m&&bezRokuOk({rok_nevim:d.querySelector('[data-pole=rok_nevim]').checked,rok:v('rok'),vztah:v('vztah')}))kotva=true;
   else if(mlada&&r.rok<=HRANICE_RODICE&&v('otec')&&v('matka')&&(m||v('snatek')))pres=true;
   else if(mlada)mladi++;}
  const doklad=soubory.length>0;const ik=box.querySelector('.ik'),tx=box.querySelector('.tx');const setS=(c,i,h)=>{if(box.dataset.s===c+i+h)return;box.dataset.s=c+i+h;box.classList.remove('ok','ne');box.classList.add(c);ik.textContent=i;tx.innerHTML=h;};
@@ -263,7 +270,7 @@ function start(){const box=document.getElementById('start');if(!box)return;let k
  else if(pres){setS('ok','✓','<b>Zkusíme začít přes sňatek rodičů.</b> Jistější je přiložit rodný či oddací list, nebo přidat předka narozeného do roku 1910.');}
  else if(sanceData().some(ciziOsoba)){setS('ne','!','<b>Zatím nemáme kde začít:</b> archivy mimo Česko a Slovensko neprohledáváme. Přidejte předka, který žil u nás, nebo přiložte doklad.');}
  else{setS('ne','!',mladi?`<b>Zatím nemáme kde začít:</b> knihy narozených po roce ${HRANICE} většinou nejsou na internetu. Doplňte u osoby jména obou rodičů a obec, přidejte předka narozeného do roku ${HRANICE}, nebo přiložte rodný či oddací list.`:`<b>Zatím nemáme kde začít:</b> přiložte rodný či oddací list nebo fotku hrobu s daty, nebo u aspoň jedné osoby doplňte rok a obec narození.`);}
- const ok=kotva||pres||doklad;sance();return ok;}
+ const ok=kotva||pres||doklad;const u=document.getElementById('unik');if(u)u.hidden=ok;sance();return ok;}
 // Ukazatel šance: orientační body za vyplněné údaje (stejná pravidla jako „Máme kde začít?“).
 // Bez místa, kde začít, zůstává v červené; strop 95, nikdy neslibujeme jistotu.
 const SANCE_POLE=[['jmeno','křestní jméno',()=>12],['prijmeni','příjmení',()=>10],['rok','rok narození',()=>18],['misto','obec narození',()=>20],['otec','jméno otce',m=>m?10:0],['matka','jméno matky',m=>m?10:0],['snatek','kde a kdy se rodiče brali',m=>m?15:0],];
@@ -275,11 +282,11 @@ const PRAHA_HOLA=/^praha\.?$/i;
 function ciziOsoba(o){return CIZINA.test(o.misto||'')||CIZINA.test(o.snatek||'');}
 function bodyOsoby(o){const r=rokZ(o.rok),mlada=!!(r.rok&&r.rok>HRANICE);let s=0;if(ciziOsoba(o))return 0;
  for(const[k,,b]of SANCE_POLE){const max=b(mlada);if(!max)continue;
-  if(k==='rok'){if(r.rok)s+=ROK_ASI.test(o.rok)?12:18;}else if(k==='jmeno'){if(o.jmeno&&!o.jmeno_nezname)s+=max;}else if(k==='misto'){if(o.misto&&!PRAHA_HOLA.test(o.misto))s+=max;}else if(o[k])s+=max;}
+  if(k==='rok'){if(r.rok)s+=ROK_ASI.test(o.rok)?12:18;else if(bezRokuOk(o))s+=8;}else if(k==='jmeno'){if(o.jmeno&&!o.jmeno_nezname)s+=max;}else if(k==='misto'){if(o.misto&&!PRAHA_HOLA.test(o.misto))s+=max;}else if(o[k])s+=max;}
  if(r.rok&&r.rok>HRANICE_RODICE)s=Math.min(s,15);
  else if(mlada){if(!o.otec&&!o.matka)s=Math.min(s,30);else if(!(o.otec&&o.matka&&(o.misto||o.snatek)))s=Math.min(s,60);else s=Math.min(s,65);}
  return s;}
-function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);if(ciziOsoba(o))return false;return(r.rok&&r.rok<=HRANICE&&o.misto)||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
+function maStart(os,doklad){return doklad||os.some(o=>{const r=rokZ(o.rok);if(ciziOsoba(o))return false;return(r.rok&&r.rok<=HRANICE&&o.misto)||(o.misto&&bezRokuOk(o))||(r.rok>HRANICE&&r.rok<=HRANICE_RODICE&&o.otec&&o.matka&&(o.misto||o.snatek));});}
 function skore(os,doklad){if(!os.length)return doklad?40:0;const b=os.map(bodyOsoby),nej=Math.max(...b),ni=b.indexOf(nej);
  // každý další předek přidává průběžně s každým vyplněným polem: čtvrtina jeho bodů, max. 15 (bez roku a obce max. 8), celkem max. 25
  const dalsi=Math.min(25,os.reduce((a,o,i)=>a+(i===ni?0:Math.min(maStart([o],false)?15:8,Math.round(b[i]/4))),0));
@@ -375,11 +382,17 @@ function krok1ok(){document.querySelectorAll('#osoby .osoba').forEach((d,i)=>{if
   if(g('prijmeni').value.trim().length<2)return chybaOsoby(d,g('prijmeni'),'Napište prosím příjmení osoby, nebo ji křížkem odeberte.','osoba_prijmeni');
   if(rokZ(g('rok').value).chyba)return chybaOsoby(d,g('rok'),'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).','osoba_rok');
   if(i===0&&!doklad){
-   if(rokZ(g('rok').value).prazdny)return chybaOsoby(d,g('rok'),'Doplňte rok narození, klidně přibližný – podle něj poznáme, ve které knize hledat.','osoba_rok');
+   if(rokZ(g('rok').value).prazdny&&!bezRokuOk({rok_nevim:g('rok_nevim').checked,rok:'',vztah:g('vztah').value}))return chybaOsoby(d,g('rok'),g('rok_nevim').checked?'Bez roku dokážeme začít jen u pradědečka nebo prababičky (vyberte je ve „Vztah k vám“). U ostatních zkuste odhad, např. „asi 1900“.':'Doplňte rok narození, klidně přibližný (např. „asi 1900“). Nevíte vůbec? Zaškrtněte „Rok nevím“.','osoba_rok');
    if(g('misto').value.trim().length<2)return chybaOsoby(d,g('misto'),'Doplňte obec narození (nebo sňatku) – bez obce nevíme, kterou matriku otevřít.','osoba_misto');}}
  if(!start()){const b=document.getElementById('start');b.scrollIntoView({behavior:'smooth',block:'center'});b.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:400});udal('formular:chyba',{krok:1,pole:'start'});return false;}
  return true;}
-document.getElementById('dal').onclick=()=>{for(const el of F.querySelectorAll('input[type=text]'))el.value=el.value.replace(/\s+/g,' ').trim();if(krok1ok()){udal('formular:hotovo',{n:1});jdi(2);}};
+function rezim(dotaz){document.getElementById('rezim').value=dotaz?'dotaz':'objednavka';document.getElementById('predmet').value=dotaz?'Dotaz – chybí podklady':'Nová zakázka';
+ document.getElementById('dotazInfo').hidden=!dotaz;document.getElementById('odeslat').textContent=dotaz?'Poradit mi zdarma':'Získat náhled rodokmenu zdarma';
+ F._next.value='https://online-rodokmen.cz/dekujeme.html'+(dotaz?'?dotaz=1':'');
+ document.querySelectorAll('#osoby [data-pole=prijmeni]').forEach(el=>el.required=!dotaz);}
+const jeDotaz=()=>document.getElementById('rezim').value==='dotaz';
+document.getElementById('poradit').onclick=()=>{for(const el of F.querySelectorAll('input[type=text]'))el.value=el.value.replace(/\s+/g,' ').trim();udal('formular:dotaz',{});rezim(true);udal('formular:hotovo',{n:1});jdi(2);};
+document.getElementById('dal').onclick=()=>{rezim(false);for(const el of F.querySelectorAll('input[type=text]'))el.value=el.value.replace(/\s+/g,' ').trim();if(krok1ok()){udal('formular:hotovo',{n:1});jdi(2);}};
 document.getElementById('zpet').onclick=()=>{if(history.state&&history.state.krok===2)history.back();else jdi(1,true);};
 window.addEventListener('popstate',()=>{if(!K2.hidden){jdi(1,true);setTimeout(()=>document.getElementById('dal').focus({preventScroll:true}),350);}});
 // Kontrola po opuštění pole (ne při psaní) + zelená fajfka u správně vyplněného
@@ -397,8 +410,8 @@ document.getElementById('f').addEventListener('submit',e=>{const stav=document.g
  for(const el of F.querySelectorAll('textarea'))el.value=el.value.trim();
  const chyba=(el,msg)=>{e.preventDefault();el.setCustomValidity(msg);el.addEventListener('input',()=>el.setCustomValidity(''),{once:true});F.reportValidity();};
  if(F.jmeno.value.length<3){chyba(F.jmeno,'Napište prosím celé jméno a příjmení.');return;}
- for(const d of document.querySelectorAll('#osoby .osoba')){const j=d.querySelector('[data-pole=jmeno]'),pr=d.querySelector('[data-pole=prijmeni]'),nz=d.querySelector('[data-pole=jmeno_nezname]'),rk=d.querySelector('[data-pole=rok]');if(pr.value.length<2){chyba(pr,'Napište prosím příjmení osoby, nebo ji křížkem odeberte.');return;}if(!soubory.length&&!nz.checked&&j.value.length<2){chyba(j,'Napište křestní jméno, nebo zaškrtněte „Křestní jméno neznám“.');return;}if(rokZ(rk.value).chyba){chyba(rk,'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).');return;}}
- if(!start()){e.preventDefault();const s=document.getElementById('start');s.scrollIntoView({behavior:'smooth',block:'center'});s.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:500});stav.innerHTML='<span style="color:#b0432c">Zatím nemáme kde začít hledat – přiložte prosím rodný či oddací list, nebo doplňte údaje podle rámečku výše. Bez toho bychom vám museli psát o doplnění.</span>';return;}
+ if(!jeDotaz())for(const d of document.querySelectorAll('#osoby .osoba')){const j=d.querySelector('[data-pole=jmeno]'),pr=d.querySelector('[data-pole=prijmeni]'),nz=d.querySelector('[data-pole=jmeno_nezname]'),rk=d.querySelector('[data-pole=rok]');if(pr.value.length<2){chyba(pr,'Napište prosím příjmení osoby, nebo ji křížkem odeberte.');return;}if(!soubory.length&&!nz.checked&&j.value.length<2){chyba(j,'Napište křestní jméno, nebo zaškrtněte „Křestní jméno neznám“.');return;}if(rokZ(rk.value).chyba){chyba(rk,'Rok napište čtyřmi číslicemi, klidně přibližně (např. „asi 1905“).');return;}}
+ if(!jeDotaz()&&!start()){e.preventDefault();const s=document.getElementById('start');s.scrollIntoView({behavior:'smooth',block:'center'});s.animate([{transform:'scale(1)'},{transform:'scale(1.03)'},{transform:'scale(1)'}],{duration:500});stav.innerHTML='<span style="color:#b0432c">Zatím nemáme kde začít hledat – přiložte prosím rodný či oddací list, nebo doplňte údaje podle rámečku výše. Bez toho bychom vám museli psát o doplnění.</span>';return;}
  stav.textContent='';const inp=document.getElementById('fotky');if(soubory.length){const dt=new DataTransfer();soubory.forEach(x=>dt.items.add(x));inp.files=dt.files;inp.name='doklad';}
  const mb=[...inp.files].reduce((a,f)=>a+f.size,0)/1048576;if(mb>MAX_MB){e.preventDefault();document.getElementById('stav').innerHTML='<span style="color:#b00">Přílohy přesahují 10 MB. Uberte fotky, nebo formulář odešlete bez nich a fotky pošlete e-mailem na zakazky@online-rodokmen.cz.</span>';return;}
  document.getElementById('odeslat').disabled=true;document.getElementById('stav').textContent='Odesílám…';});
@@ -434,6 +447,6 @@ box(CELY);spust();
 })();
 </script>
 <a class="sticky" id="sticky" href="#objednat" data-ev="cta-sticky" hidden>Získat náhled zdarma</a>
-<script src="mereni.js?v=20261121l" defer></script>
+<script src="mereni.js?v=20261124a" defer></script>
 </body>
 </html>

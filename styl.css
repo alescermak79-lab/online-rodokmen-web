@@ -208,3 +208,6 @@ input[type=text],input[type=email],select,textarea{border-color:#a99f93}
 section.alt{padding:40px 32px;border:1px solid var(--line);border-radius:18px;margin:12px 0}
 @media(max-width:560px){section.alt{padding:28px 16px;border-radius:14px}}
 .faq details:last-child{border-bottom:none}
+
+.unik{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin:8px 0 4px;font-size:14px;color:var(--muted)}.unik .btn{padding:8px 14px;font-size:14px}
+.dotaz-info{background:var(--accbg);border:1px solid #bcd9c9;border-radius:12px;padding:12px 14px;font-size:15px;color:#1f4f3d}

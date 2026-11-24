@@ -145,6 +145,7 @@
     document.addEventListener("formular:chyba", function (e) {
       udalost("formular_chyba", { krok: e.detail.krok, pole: e.detail.pole });
     });
+    document.addEventListener("formular:dotaz", function () { udalost("formular_dotaz_zvolen", { posledni_pole: posledni || "?" }); });
     document.addEventListener("formular:hotovo", function (e) {
       udalost("formular_krok_" + e.detail.n + "_hotovo", { krok: e.detail.n, sekund: sek(krokCas), odhad: odhad() });
     });
@@ -202,6 +203,8 @@
       // Inline skript webu při neprojité kontrole volá preventDefault dřív než tento posluchač.
       if (e.defaultPrevented) { if (aktKrok() === 2) udalost("formular_zablokovan", { posledni_pole: posledni || "?" }); return; }
       odeslano = true;
+      var rz = f.elements["rezim"] ? f.elements["rezim"].value : "objednavka";
+      if (rz === "dotaz") { udalost("dotaz_odeslan", { transport_type: "beacon" }); try { sessionStorage.removeItem("sem-hodnota"); } catch (e3) {} return; }
       udalost("generate_lead", { formular: "objednavka", transport_type: "beacon" });
       var q = kvalita(); q.sekund = sek(zacatekCas); q.transport_type = "beacon";
       udalost("formular_kvalita", q);
@@ -228,7 +231,9 @@
   Array.prototype.forEach.call(document.querySelectorAll("#faq details"), function (d, i) {
     d.addEventListener("toggle", function () { if (d.open) udalost("faq_otevreno", { otazka: i + 1 }); });
   });
-  if (/dekujeme\.html/.test(location.pathname)) {
+  if (/dekujeme\.html/.test(location.pathname) && /dotaz=1/.test(location.search)) {
+    // Dotaz bez podkladů: není to objednávka, do konverzí reklam nepočítáme.
+  } else if (/dekujeme\.html/.test(location.pathname)) {
     var poukaz = /poukaz=1/.test(location.search);
     udalost(poukaz ? "poukaz_odeslan" : "objednavka_odeslana");
     // Sklik konverze s proměnnou hodnotou (uloženou při odeslání formuláře)
