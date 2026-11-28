@@ -5,8 +5,8 @@
   var GA_ID = "G-5XRJP9NW8H";
   var SEM_ID = "ho4gar7nu84tkywcpoib57c8";
   var KLIC = "souhlas-mereni";
-  // Odhad hodnoty objednávky rodokmenu (Kč): typicky 20–60 předků × 150 Kč → střed 40 × 150
-  var ODHAD_OBJEDNAVKY = 6000;
+  // Odhad hodnoty objednávky rodokmenu (Kč): typicky 20–60 předků × 300 Kč → střed 40 × 300
+  var ODHAD_OBJEDNAVKY = 12000;
 
   // --- Google Analytics + výchozí souhlas (zamítnuto) ---
   window.dataLayer = window.dataLayer || [];
